@@ -1,0 +1,20 @@
+.CompanyCoupons {
+	
+}
+
+.CompanyCoupons ul li span {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #701c85;
+}
+
+.CompanyCoupons h4 {
+    color: rgb(184, 29, 151);
+}
+
+.CompanyCoupons p {
+    font-family: cursive;
+}
+
+.CompanyCoupons .card {
+    box-shadow: 5px 10px 18px #a686a8;
+}

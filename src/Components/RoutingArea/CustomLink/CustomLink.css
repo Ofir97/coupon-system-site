@@ -1,0 +1,35 @@
+.CustomLink {
+	padding-bottom: 20%;
+}
+
+.LinkStyle {
+	text-decoration: none;
+	color: #79018C;
+	font-weight: bold;
+	animation-name: highlight;
+	animation-duration: 0.3s;
+}
+
+.LinkStyle:hover {
+	color: #79018C;
+}
+
+.NoStyle:hover {
+	color:  #50179b;
+}
+
+.NoStyle {
+	color: rgb(43, 85, 224);
+	text-decoration: none;
+}
+
+@keyframes highlight {
+	from {
+		font-weight: 400;
+	}
+
+	to {
+		font-weight: bold;
+		
+	}
+}

@@ -1,0 +1,8 @@
+.Footer > p {
+    /* font-family: 'Fuzzy Bubbles', cursive; */
+    font-weight: 300;
+    color: whitesmoke;
+    font-size: 90%;
+    letter-spacing: 0.2em;
+    margin: auto;
+}

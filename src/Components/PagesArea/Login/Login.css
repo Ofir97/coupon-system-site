@@ -1,0 +1,21 @@
+.Login {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    margin-top: 3%;
+}
+
+.bad {
+    color: rgb(204, 44, 52);
+    font-size: 15px;
+}
+
+.Login h2 {
+    color: rgb(204, 78, 187);
+}
+
+.Login button {
+    margin-top: 20%;
+}

@@ -1,0 +1,24 @@
+.AddCompany {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    margin-top: 1%;
+}
+
+.AddCompany h2 {
+    color: rgb(204, 78, 187);
+    margin: 5% 0;
+}
+
+.AddCompany .Form {
+    width: 30vw;
+    margin-top: 2%;
+    margin-bottom: 20%;
+}
+
+input {
+    height: 10%;
+}
+

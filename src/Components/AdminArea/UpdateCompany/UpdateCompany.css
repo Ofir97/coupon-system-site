@@ -1,0 +1,35 @@
+.UpdateCompany {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    margin-top: 1%;
+}
+
+.UpdateCompany h2 {
+    color: rgb(204, 78, 187);
+}
+
+.UpdateCompany .Form {
+    width: 30vw;
+    margin-top: 2%;
+    margin-bottom: 10%;
+}
+
+.form-group {
+    margin-bottom: 1.5%;
+}
+
+.fa {
+    font-size: 22px;
+}
+
+input {
+    height: 10%;
+}
+
+.UpdateCompany textarea {
+    font-family: cursive;
+    font-style: italic;
+}
