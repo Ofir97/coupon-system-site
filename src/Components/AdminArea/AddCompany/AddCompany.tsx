@@ -8,6 +8,8 @@ import axios from "axios";
 import globals from "../../../Services/Globals";
 import notify, { SccMsg } from "../../../Services/Notification";
 import { ResponseDto } from "../../../Models/ResponseDto";
+import store from "../../../Redux/Store";
+import { companiesAddedAction } from "../../../Redux/CompaniesAppState";
 
 function AddCompany(): JSX.Element {
 
@@ -32,8 +34,10 @@ function AddCompany(): JSX.Element {
         axios.post<ResponseDto>(globals.urls.companies, company)
             .then(response => {
                 if (response.data.success) {
-                    notify.success(response.data.message);
-                    navigate('/admin');
+                    notify.success(SccMsg.ADDED_COMPANY);
+                    company.id = +response.data.message;
+                    store.dispatch(companiesAddedAction(company)); 
+                    navigate('/admin/company');
                 }
                 else notify.error(response.data.message);
 

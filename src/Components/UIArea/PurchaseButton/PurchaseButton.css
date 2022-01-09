@@ -1,0 +1,11 @@
+.PurchaseButton {
+	
+}
+
+.PurchaseButton .purchase-span {
+    margin-left: 15px;
+    color: white;
+    font-family: 'Sarabun', sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}

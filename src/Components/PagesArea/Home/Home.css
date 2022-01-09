@@ -2,6 +2,37 @@
 	
 }
 
-h1 {
-    padding: 1%;
+.Home h2 {
+    color: rgb(195, 65, 119);
+    padding-bottom: 0;
+}
+
+.Home img {
+    min-width: 65vw;
+    max-height: 70vh;
+    margin: auto;
+}
+
+.Home .caption-container {
+    background-color: rgb(183, 98, 193, 0.8);
+    margin: auto;
+    width: 70%;
+    border-radius: 1%;
+}
+
+.Home h4 {
+    color: rgb(144, 215, 233);
+}
+
+.Home .description {
+    /* font-size: larger; */
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-style: italic;
+}
+
+.Home .price {
+    font-size: large;
+    color:rgb(255, 255, 255);
+    background-color: rgb(216, 85, 124, 0.6);
+    padding: 0.8%;
 }

@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 import "./UpdateButton.css";
 
 interface UpdateButtonProps {
+    resource: any;
     path: string;
     id: number;
     tooltipMsg: string;
 }
 
 function UpdateButton(props: UpdateButtonProps): JSX.Element {
+
     return (
         <span className="UpdateButton">
             <OverlayTrigger placement='top' overlay={(p) => (
@@ -18,7 +20,7 @@ function UpdateButton(props: UpdateButtonProps): JSX.Element {
                 </Tooltip>
             )}>
 
-            <Link to={props.path + '/' + props.id} className="btn btn-outline-info"><BsPencilSquare /></Link>
+            <Link to={props.path + '/' + props.id} state={props.resource} className="btn btn-outline-info"><BsPencilSquare /></Link>
             </OverlayTrigger>
         </span>
     );

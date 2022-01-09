@@ -9,6 +9,8 @@ import notify, { SccMsg } from "../../../Services/Notification";
 import GoMenu from "../../SharedArea/GoMenu/GoMenu";
 import { ResponseDto } from "../../../Models/ResponseDto";
 import { useNavigate } from "react-router-dom";
+import { couponsAddedAction } from "../../../Redux/CouponsAppState";
+import store from "../../../Redux/Store";
 
 function AddCoupon(): JSX.Element {
 
@@ -46,8 +48,10 @@ function AddCoupon(): JSX.Element {
         axios.post<ResponseDto>(globals.urls.companyCoupons, coupon)
             .then(response => {
                 if (response.data.success) {
-                    notify.success(response.data.message);
-                    navigate('/company');
+                    notify.success(SccMsg.ADDED_COUPON);
+                    coupon.id = +response.data.message;
+                    store.dispatch(couponsAddedAction(coupon));
+                    navigate('/company/coupons');
                 }
                 else notify.error(response.data.message);
             })

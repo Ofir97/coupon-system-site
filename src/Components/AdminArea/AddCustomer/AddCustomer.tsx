@@ -6,7 +6,10 @@ import { Customer } from "../../../Models/Customer";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import globals from "../../../Services/Globals";
-import notify from "../../../Services/Notification";
+import notify, { SccMsg } from "../../../Services/Notification";
+import { customersAddedAction } from "../../../Redux/CustomersAppState";
+import store from "../../../Redux/Store";
+import { ResponseDto } from "../../../Models/ResponseDto";
 
 function AddCustomer(): JSX.Element {
 
@@ -28,12 +31,14 @@ function AddCustomer(): JSX.Element {
         resolver: zodResolver(schema),
     });
 
-    const sendToRemoteServer = (customer: Customer) => {
-        axios.post(globals.urls.customers, customer)
+    const sendToRemoteServer = async (customer: Customer) => {
+        axios.post<ResponseDto>(globals.urls.customers, customer)
             .then(response => {
                 if (response.data.success) {
-                    notify.success(response.data.message);
-                    navigate('/admin');
+                    notify.success(SccMsg.ADDED_CUSTOMER);
+                    customer.id = +response.data.message;
+                    store.dispatch(customersAddedAction(customer));
+                    navigate('/admin/customer');
                 }
                 else notify.error(response.data.message);
 
@@ -96,7 +101,7 @@ function AddCustomer(): JSX.Element {
 
                 <div className="form-group row">
                     <div className="offset-4 col-8">
-                        <button name="submit" type="submit" className="btn btn-primary">Add Customer</button>
+                        <button disabled={ !isValid } name="submit" type="submit" className="btn btn-primary">Add Customer</button>
                     </div>
                 </div>
             </form>

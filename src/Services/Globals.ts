@@ -9,7 +9,9 @@ class DevelopmentGlobals extends Globals{
 
         companies: "http://localhost:8080/coupon-system/admin/company",
         customers: "http://localhost:8080/coupon-system/admin/customer",
+        coupons: "http://localhost:8080/coupon-system/coupon",
         companyCoupons: "http://localhost:8080/coupon-system/company/coupon",
+        customerCoupons: "http://localhost:8080/coupon-system/customer/coupon"
         
     }
 }
@@ -22,7 +24,9 @@ class ProductionGlobals extends Globals{
         
         companies: "http://localhost:8080/coupon-system/admin/company",
         customers: "http://localhost:8080/coupon-system/admin/customer",
+        coupons: "http://localhost:8080/coupon-system/coupon",
         companyCoupons: "http://localhost:8080/coupon-system/company/coupon",
+        customerCoupons: "http://localhost:8080/coupon-system/customer/coupon"
     }
 }
 

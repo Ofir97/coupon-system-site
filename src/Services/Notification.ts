@@ -1,7 +1,13 @@
 import { Notyf } from 'notyf'
 
 export enum SccMsg {
-    ADDED_COUPON = 'Coupon added successfully',
+    ADDED_COUPON = 'coupon added successfully',
+    ADDED_COMPANY = 'company added successfully',
+    ADDED_CUSTOMER = 'customer added successfully',
+
+    ALL_COMPANIES = 'got all companies',
+    ALL_CUSTOMERS = 'got all customers',
+    ALL_COUPONS = 'got all coupons'
 
 }
 export enum ErrMsg {

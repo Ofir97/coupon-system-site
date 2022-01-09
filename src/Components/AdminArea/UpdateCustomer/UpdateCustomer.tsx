@@ -2,12 +2,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import { Customer } from "../../../Models/Customer";
 import { ResponseDto } from "../../../Models/ResponseDto";
+import { customersUpdatedAction } from "../../../Redux/CustomersAppState";
+import store from "../../../Redux/Store";
 import globals from "../../../Services/Globals";
 import notify from "../../../Services/Notification";
+import EmptyView from "../../SharedArea/EmptyView/EmptyView";
 import GoMenu from "../../SharedArea/GoMenu/GoMenu";
 import "./UpdateCustomer.css";
 
@@ -16,8 +19,9 @@ function UpdateCustomer(): JSX.Element {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const init: Customer = undefined;
-    const [customer, setCustomer] = useState<Customer>(init);
+    const location = useLocation();
+    const stateArr = location.state as Customer[];
+    const customer = stateArr && stateArr[0];
 
     const schema = z.object({
         firstName: z.string().nonempty("Please provide first name."),
@@ -25,23 +29,6 @@ function UpdateCustomer(): JSX.Element {
         email: z.string().nonempty("Please provide a valid email.").email('Invalid email.'),
         password: z.string().nonempty("Please choose a password.").min(5).max(15),
     })
-
-    useEffect(() => {
-        getCustomer()
-            .then((response) => {
-                if (response.data.firstName === undefined) {
-                    notify.error('customer with id ' + id + ' does not exist')
-                    navigate('/admin/customer');
-                }
-                else {
-                    setCustomer(response.data);
-                }
-            })
-            .catch((err) => {
-                notify.error(err);
-            })
-
-    }, [])
 
     const {
         register,
@@ -52,16 +39,13 @@ function UpdateCustomer(): JSX.Element {
         resolver: zodResolver(schema),
     });
 
-    const getCustomer = async () => {
-        return axios.get<Customer>(globals.urls.customers + '/' + id);
-    }
-    
     const sendToRemoteServer = async (customer: Customer) => {
         customer.id = +id;
         axios.put<ResponseDto>(globals.urls.customers, customer)
             .then(response => {
                 if (response.data.success) {
                     notify.success(response.data.message);
+                    store.dispatch(customersUpdatedAction(customer)); 
                     navigate('/admin/customer');
                 }
                 else notify.error(response.data.message);
@@ -74,7 +58,7 @@ function UpdateCustomer(): JSX.Element {
 
     return (
         <div className="UpdateCustomer">
-			<h2>Update Customer</h2>
+			{customer !== null && <><h2>Update Customer</h2>
             <form onSubmit={handleSubmit(sendToRemoteServer)} className="Form form-inline was-validated" noValidate >
             <div className="form-group row">
                     <label className="col-4 col-form-label">Id</label>
@@ -91,8 +75,8 @@ function UpdateCustomer(): JSX.Element {
                         <div className="input-group">
                             <input {...register("firstName")} type="text" className="form-control" defaultValue={customer?.firstName}  />
                             <div className="invalid-feedback"></div>
-                            <span className="bad">{errors.firstName?.message}</span>
                         </div>
+                        <div className="bad">{errors.firstName?.message}</div>
                     </div>
                 </div>
 
@@ -102,8 +86,8 @@ function UpdateCustomer(): JSX.Element {
                         <div className="input-group">
                             <input {...register("lastName")} type="text" className="form-control" defaultValue={customer?.lastName} />
                             <div className="invalid-feedback"></div>
-                            <span className="bad">{errors.lastName?.message}</span>
                         </div>
+                        <div className="bad">{errors.lastName?.message}</div>
                     </div>
                 </div>
 
@@ -133,13 +117,16 @@ function UpdateCustomer(): JSX.Element {
 
                 <div className="form-group row">
                     <div className="offset-4 col-8">
-                        <button disabled={ !isDirty || !isValid } name="submit" type="submit" className="btn btn-primary">Update Customer</button>
+                        <button disabled={ !isValid } name="submit" type="submit" className="btn btn-primary">Update Customer</button>
                     </div>
                 </div>
             </form>
 
 
-            <GoMenu to='/admin/customer' />
+            <GoMenu to='/admin/customer' /></>}
+
+            {!customer && <><EmptyView message='Ooops.. customer does not exist!' />
+             <Link to="/admin/customer"><button type="button" className="btn btn-secondary btn-md back-btn">Back to customers menu</button></Link></>}
         </div>
     );
 }

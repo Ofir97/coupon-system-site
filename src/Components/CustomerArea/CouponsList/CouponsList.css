@@ -1,3 +1,45 @@
 .CouponsList {
 	
 }
+
+.CouponsList ul li span {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #701c85;
+}
+
+.CouponsList h4 {
+    color: rgb(184, 29, 151);
+}
+
+.CouponsList h5 {
+    font-style: italic;
+    font-weight: 500;
+    font-family: 'Shadows Into Light Two', cursive;
+    color: rgb(132, 92, 224);
+}
+
+.CouponsList p {
+    font-family: cursive;
+}
+
+.CouponsList .card {
+    box-shadow: 5px 10px 18px #a686a8;
+    margin-bottom: 2.5%;
+}
+
+#date-span {
+    color: black;
+}
+
+.CouponsList .btn {
+    margin-bottom: 1%;
+}
+
+.CouponsList .purchased-msg {
+    font-family: 'Sarabun', sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background-color: #bb4558;
+    color: white;
+    padding: 2%;
+}

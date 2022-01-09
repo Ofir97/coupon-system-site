@@ -5,14 +5,12 @@ export class Utils {
         return text[0].toUpperCase() + text.slice(1);
     }
 
-    static formatDate(date: Date) {
-        const newDate = new Date(date);
-        
-        const day = newDate.getDate() < 10 ? ('0' + newDate.getDate()) : newDate.getDate();
-        const month = (newDate.getMonth()+1) < 10 ? ('0' + (newDate.getMonth() + 1)) : newDate.getMonth() + 1;
-        const year = newDate.getFullYear();
+    static convertUTCToDate(date: Date) {
+        const day = date.getDate() < 10 ? ('0' + date.getDate()) : date.getDate();
+        const month = (date.getMonth()+1) < 10 ? ('0' + (date.getMonth() + 1)) : date.getMonth() + 1;
+        const year = date.getFullYear();
 
-        return day + '/' + month + '/' + year;
-    } 
+        return year + '-' + month + '-' + day;
+    }
 }
 

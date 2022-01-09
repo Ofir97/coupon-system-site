@@ -5,48 +5,54 @@ import "./CompaniesList.css";
 import axios from "axios";
 import globals from "../../../Services/Globals";
 import { CompaniesListModel } from "../../../Models/resources-lists/CompaniesList";
-import notify from "../../../Services/Notification";
+import notify, { SccMsg } from "../../../Services/Notification";
 import GoMenu from "../../SharedArea/GoMenu/GoMenu";
 import AddButton from "../../UIArea/AddButton/AddButton";
 import DeleteButton from "../../UIArea/DeleteButton/DeleteButton";
 import UpdateButton from "../../UIArea/UpdateButton/UpdateButton";
 import { useNavigate } from "react-router-dom";
 import { ResponseDto } from "../../../Models/ResponseDto";
+import store from "../../../Redux/Store";
+import { companiesDeletedAction, companiesDownloadedAction } from "../../../Redux/CompaniesAppState";
+import TotalCompanies from "../TotalCompanies/TotalCompanies";
 
 function CompaniesList(): JSX.Element {
 
-    const navigate = useNavigate();
-
-    const init: Company[] = [];
-    const [companies, setCompanies] = useState<Company[]>(init);
-
+    const [companies, setCompanies] = useState<Company[]>(store.getState().companiesState.companies);
 
     const getCompanies = async () => {
         return axios.get<CompaniesListModel>(globals.urls.companies);
     }
 
     useEffect(() => {
+        {
+            companies?.length == 0 && getCompanies()
+                .then((response) => {
 
-        getCompanies()
-            .then((response) => {
-                setCompanies(response.data.companies);
-            })
-            .catch((err) => {
-                notify.error(err);
-            })
-
+                    store.dispatch(companiesDownloadedAction(response.data.companies)); // Update AppState
+                    setCompanies(response.data.companies); // Update LocalState
+                    notify.success(SccMsg.ALL_COMPANIES);
+                })
+                .catch((err) => {
+                    notify.error(err);
+                })
+        }
     }, [])
 
     const deleteCompany = async (id: number) => {
         axios.delete<ResponseDto>(globals.urls.companies + '/' + id)
             .then(response => {
-                response.data.success ? notify.success(response.data.message) : notify.error(response.data.message);
+                if (response.data.success) {
+                    notify.success(response.data.message);
+                    store.dispatch(companiesDeletedAction(id));
+                    setCompanies(store.getState().companiesState.companies);
+                }
+                else notify.error(response.data.message);
             })
             .catch(err => {
                 notify.error(err);
             })
 
-        navigate('/admin');
     }
 
     return (
@@ -75,13 +81,14 @@ function CompaniesList(): JSX.Element {
                                         <td>{company.email}</td>
                                         <td>{company.password}</td>
                                         <td><DeleteButton cb={deleteCompany} resource={"company"} id={company.id} /> &nbsp;
-                                            <UpdateButton id={company.id} path='/admin/update-company' tooltipMsg="update company"  /></td>
+                                            <UpdateButton id={company.id} resource={companies.filter(c => c.id === company.id)} path='/admin/update-company' tooltipMsg="update company" /></td>
                                     </tr>
                                 ]
                             })}
                         </tbody>
                     </table>
 
+                    <TotalCompanies />
                     <br /><br />
                     <GoMenu to='/admin' />
                 </>

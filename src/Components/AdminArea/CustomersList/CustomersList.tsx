@@ -4,7 +4,7 @@ import { CustomersListModel } from "../../../Models/resources-lists/CustomersLis
 import globals from "../../../Services/Globals";
 import "./CustomersList.css";
 import axios from "axios";
-import notify from "../../../Services/Notification";
+import notify, { SccMsg } from "../../../Services/Notification";
 import EmptyView from "../../SharedArea/EmptyView/EmptyView";
 import GoMenu from "../../SharedArea/GoMenu/GoMenu";
 import AddButton from "../../UIArea/AddButton/AddButton";
@@ -12,40 +12,50 @@ import DeleteButton from "../../UIArea/DeleteButton/DeleteButton";
 import UpdateButton from "../../UIArea/UpdateButton/UpdateButton";
 import { ResponseDto } from "../../../Models/ResponseDto";
 import { useNavigate } from "react-router-dom";
+import TotalCustomers from "../TotalCustomers/TotalCustomers";
+import store from "../../../Redux/Store";
+import { customersDeletedAction, customersDownloadedAction } from "../../../Redux/CustomersAppState";
 
 function CustomersList(): JSX.Element {
 
     const navigate = useNavigate();
-    
-    const init: Customer[] = [];
-    const [customers, setCustomers] = useState<Customer[]>(init);
+
+    const [customers, setCustomers] = useState<Customer[]>(store.getState().customersState.customers);
 
     const getCustomers = async () => {
         return axios.get<CustomersListModel>(globals.urls.customers);
     }
 
     useEffect(() => {
-
-        getCustomers()
-            .then((response) => {
-                setCustomers(response.data.customers);
-            })
-            .catch((err) => {
-                notify.error(err);
-            })
-
+        {
+            customers?.length == 0 && getCustomers()
+                .then((response) => {
+                    store.dispatch(customersDownloadedAction(response.data.customers));
+                    setCustomers(response.data.customers);
+                    notify.success(SccMsg.ALL_CUSTOMERS);
+                })
+                .catch((err) => {
+                    notify.error(err);
+                })
+                
+        }
     }, [])
 
     const deleteCustomer = async (id: number) => {
         axios.delete<ResponseDto>(globals.urls.customers + '/' + id)
             .then(response => {
-                response.data.success ? notify.success(response.data.message) : notify.error(response.data.message);
+                if (response.data.success) {
+                    notify.success(response.data.message);
+                    store.dispatch(customersDeletedAction(id));
+                    setCustomers(store.getState().customersState.customers);
+                }  
+                else notify.error(response.data.message);
             })
             .catch(err => {
                 notify.error(err);
             })
 
-        navigate('/admin');
+        navigate('/admin/customer');
     }
 
     return (
@@ -75,13 +85,14 @@ function CustomersList(): JSX.Element {
                                     <td>{customer.email}</td>
                                     <td>{customer.password}</td>
                                     <td><DeleteButton cb={deleteCustomer} resource={"customer"} id={customer.id} />&nbsp;
-                                        <UpdateButton id={customer.id} path='/admin/update-customer' tooltipMsg="update customer" /></td>
+                                        <UpdateButton resource={customers.filter(c => c.id === customer.id)} id={customer.id} path='/admin/update-customer' tooltipMsg="update customer" /></td>
                                 </tr>
                             ]
                         })}
                     </tbody>
                 </table>
 
+                <TotalCustomers />
                 <br /><br />
                 <GoMenu to='/admin' /></>
             }
