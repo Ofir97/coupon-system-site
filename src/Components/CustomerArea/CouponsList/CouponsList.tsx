@@ -13,37 +13,37 @@ import Avatar from "../../SharedArea/Avatar/Avatar";
 import EmptyView from "../../SharedArea/EmptyView/EmptyView";
 import GoMenu from "../../SharedArea/GoMenu/GoMenu";
 import ILTime from "../../SharedArea/ILTime/ILTime";
-import { GrStatusGood } from "react-icons/gr";
 import PurchaseButton from "../../UIArea/PurchaseButton/PurchaseButton";
 import "./CouponsList.css";
 import FilterSection from "../../UIArea/FilterSection/FilterSection";
+import { customerCouponsAddedAction, customerCouponsDownloadedAction } from "../../../Redux/CustomerCouponsAppState";
 
 function CouponsList(): JSX.Element {
 
     const [coupons, setCoupons] = useState<Coupon[]>(store.getState().couponsState.coupons);
-
-    const init: Coupon[] = [];
-    const [customerCoupons, setCustomerCoupons] = useState<Coupon[]>(init);
+    const [customerCoupons, setCustomerCoupons] = useState<Coupon[]>(store.getState().customerCouponsState.customerCoupons);
+    const [rerender, setRerender] = useState(true);
 
     const getCouponsFromFilter = (coupons: Coupon[]) => {
         coupons?.length > 0 ? setCoupons(coupons) : notify.error('no coupons from this filter');
     }
 
-    const getAllCoupons = async () => {
+    const getAllCouponsFromServer = async () => {
         axios.get<CouponsListModel>(globals.urls.coupons)
         .then((response) => {
             store.dispatch(couponsDownloadedAction(response.data.coupons));
             setCoupons(response.data.coupons);
-            response.data.coupons.length > 0 && notify.success(SccMsg.ALL_COUPONS);
+            notify.success(SccMsg.ALL_COUPONS);
         })
         .catch((err) => {
             notify.error(err);
         })
     }
 
-    const getCustomerCoupons = async () => {
+    const getCustomerCouponsFromServer = async () => {
         axios.get<CouponsListModel>(globals.urls.customerCoupons)
             .then(response => {
+                store.dispatch(customerCouponsDownloadedAction(response.data.coupons));
                 setCustomerCoupons(response.data.coupons);
             })
             .catch(err => {
@@ -52,8 +52,8 @@ function CouponsList(): JSX.Element {
     }
 
     useEffect(() => {
-        coupons.length === 0 && getAllCoupons();
-        getCustomerCoupons();
+        coupons?.length === 0 && getAllCouponsFromServer();
+        customerCoupons?.length === 0 && getCustomerCouponsFromServer();
 
     }, [])
 
@@ -62,7 +62,9 @@ function CouponsList(): JSX.Element {
             .then(response => {
                 if (response.data.success) {
                     notify.success(response.data.message);
-                    getCustomerCoupons();
+                    store.dispatch(customerCouponsAddedAction(coupons.find(coupon => coupon.id === couponId)));
+                    setCustomerCoupons(store.getState().customerCouponsState.customerCoupons);
+                    setRerender(!rerender);
                 }
                 else notify.error(response.data.message);
             })
@@ -86,7 +88,7 @@ function CouponsList(): JSX.Element {
     return (
         <div className="CouponsList">
             {coupons?.length > 0 && <><h2 className="display-5">All coupons</h2>
-            <FilterSection filterCb={getCouponsFromFilter} allCouponsCb={getAllCoupons} resource="coupon" />
+            <FilterSection filterCb={getCouponsFromFilter} resource="coupon" />
             <div className="row">
                 {coupons.map(coupon => {
                     return [

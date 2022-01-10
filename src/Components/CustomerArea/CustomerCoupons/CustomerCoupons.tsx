@@ -4,8 +4,10 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Coupon } from "../../../Models/Coupon";
 import { CouponsListModel } from "../../../Models/resources-lists/CouponsList";
+import { customerCouponsDownloadedAction } from "../../../Redux/CustomerCouponsAppState";
+import store from "../../../Redux/Store";
 import globals from "../../../Services/Globals";
-import notify from "../../../Services/Notification";
+import notify, { SccMsg } from "../../../Services/Notification";
 import { Utils } from "../../../Services/Utils";
 import Avatar from "../../SharedArea/Avatar/Avatar";
 import EmptyView from "../../SharedArea/EmptyView/EmptyView";
@@ -16,21 +18,18 @@ import "./CustomerCoupons.css";
 
 function CustomerCoupons(): JSX.Element {
 
-    const init: Coupon[] = [];
-    const [coupons, setCoupons] = useState<Coupon[]>(init);
+    const [coupons, setCoupons] = useState<Coupon[]>(store.getState().customerCouponsState.customerCoupons);
 
     const getCouponsFromFilter = (coupons: Coupon[]) => {
         coupons?.length > 0 ? setCoupons(coupons) : notify.error('no coupons from this filter');
-    }
-
-    const getAllCoupons = async () => {
-        getCoupons();
     }
 
     const getCoupons = async () => {
         axios.get<CouponsListModel>(globals.urls.customerCoupons)
             .then(response => {
                 setCoupons(response.data.coupons);
+                store.dispatch(customerCouponsDownloadedAction(response.data.coupons));
+                notify.success(SccMsg.ALL_CUSTOMER_COUPONS);
             })
             .catch(err => {
                 notify.error(err);
@@ -38,15 +37,14 @@ function CustomerCoupons(): JSX.Element {
     }
 
     useEffect(() => {
-
-        getCoupons()
+        coupons.length === 0 && getCoupons();
 
     }, [])
 
     return (
         <div className="CustomerCoupons">
             {coupons?.length > 0 && <><h2 className="display-5">Purchased Coupons</h2>
-                <FilterSection filterCb={getCouponsFromFilter} allCouponsCb={getAllCoupons} resource="customer" />
+                <FilterSection filterCb={getCouponsFromFilter} resource="customer" />
                 <div className="row">
                     {coupons.map(coupon => {
                         return [

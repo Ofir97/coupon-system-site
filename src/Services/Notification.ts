@@ -7,7 +7,9 @@ export enum SccMsg {
 
     ALL_COMPANIES = 'got all companies',
     ALL_CUSTOMERS = 'got all customers',
-    ALL_COUPONS = 'got all coupons'
+    ALL_COUPONS = 'got all coupons',
+    ALL_COMPANY_COUPONS = "got all company's coupons",
+    ALL_CUSTOMER_COUPONS = 'got all customer coupons'
 
 }
 export enum ErrMsg {

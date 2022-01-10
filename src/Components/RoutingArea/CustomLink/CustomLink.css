@@ -1,25 +1,32 @@
 .CustomLink {
 	padding-bottom: 20%;
+	font-family: 'Baloo 2', sans-serif;
+	letter-spacing: 1.5px;
 }
 
 .LinkStyle {
+	padding-bottom: 3px;
+	border-bottom: 3px solid #67337c;
 	text-decoration: none;
-	color: #79018C;
+	color: #eceaec;
 	font-weight: bold;
+	font-size: large;
 	animation-name: highlight;
-	animation-duration: 0.3s;
+	animation-duration: 0.1s;
 }
 
 .LinkStyle:hover {
-	color: #79018C;
+	color: #eceaec;
 }
 
 .NoStyle:hover {
-	color:  #50179b;
+	color: white;
+	padding-bottom: 3px;
+	border-bottom: 2px solid #674974;
 }
 
 .NoStyle {
-	color: rgb(43, 85, 224);
+	color: rgb(219, 219, 221);
 	text-decoration: none;
 }
 
@@ -30,6 +37,5 @@
 
 	to {
 		font-weight: bold;
-		
 	}
 }

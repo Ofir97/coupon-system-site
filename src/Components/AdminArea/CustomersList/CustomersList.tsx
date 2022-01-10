@@ -11,7 +11,7 @@ import AddButton from "../../UIArea/AddButton/AddButton";
 import DeleteButton from "../../UIArea/DeleteButton/DeleteButton";
 import UpdateButton from "../../UIArea/UpdateButton/UpdateButton";
 import { ResponseDto } from "../../../Models/ResponseDto";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TotalCustomers from "../TotalCustomers/TotalCustomers";
 import store from "../../../Redux/Store";
 import { customersDeletedAction, customersDownloadedAction } from "../../../Redux/CustomersAppState";
@@ -66,11 +66,12 @@ function CustomersList(): JSX.Element {
                 <table className="myTable">
                     <thead>
                         <tr>
-                            <th>Id</th>
+                            <th>ID</th>
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
                             <th>Password</th>
+                            <th>Coupons</th>
                             <th>Actions &nbsp;<AddButton path='/admin/add-customer' tooltipMsg='add customer' /></th>
                         </tr>
                     </thead>
@@ -84,6 +85,7 @@ function CustomersList(): JSX.Element {
                                     <td>{customer.lastName}</td>
                                     <td>{customer.email}</td>
                                     <td>{customer.password}</td>
+                                    <td><Link to={customer.id + '/coupon'} state={{model: 'customer', coupons: customer.coupons}} className="btn btn-outline-dark">View</Link></td>
                                     <td><DeleteButton cb={deleteCustomer} resource={"customer"} id={customer.id} />&nbsp;
                                         <UpdateButton resource={customers.filter(c => c.id === customer.id)} id={customer.id} path='/admin/update-customer' tooltipMsg="update customer" /></td>
                                 </tr>

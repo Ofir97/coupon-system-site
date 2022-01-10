@@ -2,6 +2,7 @@ import "./Header.css";
 import { Container, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import  logo  from "../../../Assets/images/coupon-logo.png";
 
 function Header(): JSX.Element {
     const [time, setTime] = useState(new Date());
@@ -29,7 +30,7 @@ function Header(): JSX.Element {
             <span className="clock">{displayTime()}</span>
             <Navbar variant="dark">
                 <Container>
-                    <Navbar.Brand as={Link} to="/">Coupon System</Navbar.Brand>
+                    <Navbar.Brand as={Link} to="/"><img src={logo}/><h6 className="display-6">Coupon System</h6></Navbar.Brand>
                     <Navbar.Toggle />
                     <Navbar.Collapse className="justify-content-end">
                         {flag && <Navbar.Text>Signed in as: <a href="#login">Ofir</a></Navbar.Text>}

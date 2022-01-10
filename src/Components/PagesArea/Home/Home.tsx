@@ -32,7 +32,7 @@ function Home(): JSX.Element {
             <h2 className="display-4">Coupon System</h2>
 
             {coupons?.length > 0 &&
-                <Carousel>
+                <Carousel interval={3000} variant="dark">
                     {coupons.map(coupon => (
                         <Carousel.Item key={coupon.id}>
                             <img

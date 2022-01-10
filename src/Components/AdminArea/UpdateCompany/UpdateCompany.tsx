@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
@@ -56,66 +55,66 @@ function UpdateCompany(): JSX.Element {
     }
 
     return (
-         <div className="UpdateCompany">
+        <div className="UpdateCompany">
 
-           {company !== null && <><h2>Update Company</h2>
+            {company !== null && <><h2>Update Company</h2>
 
-            <form onSubmit={handleSubmit(sendToRemoteServer)} className="Form form-inline was-validated" noValidate>
-                <div className="form-group row">
-                    <label className="col-4 col-form-label">Id</label>
-                    <div className="col-8">
-                        <div className="input-group">
-                            <input {...register("id")} disabled type="text" className="form-control" defaultValue={id} />
+                <form onSubmit={handleSubmit(sendToRemoteServer)} className="Form form-inline was-validated" noValidate>
+                    <div className="form-group row">
+                        <label className="col-4 col-form-label">Id</label>
+                        <div className="col-8">
+                            <div className="input-group">
+                                <input {...register("id")} disabled type="text" className="form-control" defaultValue={id} />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="form-group row">
-                    <label className="col-4 col-form-label">Company Name</label>
-                    <div className="col-8">
-                        <div className="input-group">
-                            <input {...register("name")} type="text" className="form-control" value={company?.name || ''} />
-                            <div className="invalid-feedback"></div>
-                            <span className="bad">{errors.name?.message}</span>
+                    <div className="form-group row">
+                        <label className="col-4 col-form-label">Company Name</label>
+                        <div className="col-8">
+                            <div className="input-group">
+                                <input {...register("name")} type="text" className="form-control" value={company?.name || ''} />
+                                <div className="invalid-feedback"></div>
+                                <span className="bad">{errors.name?.message}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="form-group row">
-                    <label className="col-4 col-form-label">Email</label>
-                    <div className="col-8">
-                        <div className="input-group">
-                            <input {...register("email")} type="text" className="form-control" required defaultValue={company?.email} />
-                            <div className="invalid-feedback"></div>
+                    <div className="form-group row">
+                        <label className="col-4 col-form-label">Email</label>
+                        <div className="col-8">
+                            <div className="input-group">
+                                <input {...register("email")} type="text" className="form-control" required defaultValue={company?.email} />
+                                <div className="invalid-feedback"></div>
+                            </div>
+                            <div className="bad">{errors.email?.message}</div>
                         </div>
-                        <div className="bad">{errors.email?.message}</div>
                     </div>
-                </div>
 
 
-                <div className="form-group row">
-                    <label className="col-4 col-form-label">Password</label>
-                    <div className="col-8">
-                        <div className="input-group">
-                            <input {...register("password")} type="password" className="form-control" required defaultValue={company?.password} />
-                            <div className="invalid-feedback"></div>
+                    <div className="form-group row">
+                        <label className="col-4 col-form-label">Password</label>
+                        <div className="col-8">
+                            <div className="input-group">
+                                <input {...register("password")} type="password" className="form-control" required defaultValue={company?.password} />
+                                <div className="invalid-feedback"></div>
+                            </div>
+                            <div className="bad">{errors.password?.message}</div>
                         </div>
-                        <div className="bad">{errors.password?.message}</div>
                     </div>
-                </div>
 
 
-                <div className="form-group row">
-                    <div className="offset-4 col-8">
-                        <button disabled={!isValid} name="submit" type="submit" className="btn btn-primary">Update Company</button>
+                    <div className="form-group row">
+                        <div className="offset-4 col-8">
+                            <button disabled={!isValid} name="submit" type="submit" className="btn btn-primary">Update Company</button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
 
-            <GoMenu to='/admin/company' /></>
-    }
+                <GoMenu to='/admin/company' /></>
+            }
             {!company && <><EmptyView message='Ooops.. company does not exist!' />
-           <Link to="/admin/company"><button type="button" className="btn btn-secondary btn-md back-btn">Back to companies menu</button></Link></>} 
+                <Link to="/admin/company"><button type="button" className="btn btn-secondary btn-md back-btn">Back to companies menu</button></Link></>}
 
         </div>
     );

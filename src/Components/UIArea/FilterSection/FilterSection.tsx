@@ -2,13 +2,13 @@ import axios from "axios";
 import { useState } from "react";
 import { Button, Col, Nav, Row, Tab } from "react-bootstrap";
 import { CouponsListModel } from "../../../Models/resources-lists/CouponsList";
+import store from "../../../Redux/Store";
 import globals from "../../../Services/Globals";
 import notify from "../../../Services/Notification";
 import "./FilterSection.css";
 
 interface FilterSectionProps {
     filterCb: Function;
-    allCouponsCb: Function;
     resource: string;
 }
 
@@ -26,6 +26,15 @@ function FilterSection(props: FilterSectionProps): JSX.Element {
             return globals.urls.coupons;
 
         return '';
+    }
+
+    const allCoupons = () => {
+        if (props.resource === 'customer') {
+            props.filterCb(store.getState().customerCouponsState.customerCoupons);
+        }
+        else { 
+            props.filterCb(store.getState().couponsState.coupons);
+        }
     }
 
     const filterByPrice = async (e: any) => {
@@ -72,7 +81,7 @@ function FilterSection(props: FilterSectionProps): JSX.Element {
                     <Col sm={5}>
                         <Nav variant="pills" className="flex-column">
                             <Nav.Item>
-                                <Nav.Link eventKey="all" onClick={() => props.allCouponsCb()}>Show all</Nav.Link>
+                                <Nav.Link eventKey="all" onClick={allCoupons}>Show all</Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
                                 <Nav.Link eventKey="category">By Category</Nav.Link>

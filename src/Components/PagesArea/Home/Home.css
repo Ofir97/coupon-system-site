@@ -25,14 +25,15 @@
 }
 
 .Home .description {
-    /* font-size: larger; */
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: large;
+    color:rgb(238, 231, 231);
+    font-family: 'Handlee', cursive;
     font-style: italic;
 }
 
 .Home .price {
     font-size: large;
-    color:rgb(255, 255, 255);
+    color:rgb(27, 26, 26);
     background-color: rgb(216, 85, 124, 0.6);
     padding: 0.8%;
 }

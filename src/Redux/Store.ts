@@ -1,6 +1,7 @@
 import { combineReducers, createStore } from "redux";
 import { companiesReducer } from "./CompaniesAppState";
 import { couponsReducer } from "./CouponsAppState";
+import { customerCouponsReducer } from "./CustomerCouponsAppState";
 import { customersReducer } from "./CustomersAppState";
 
 // Single Reducer
@@ -9,8 +10,14 @@ import { customersReducer } from "./CustomersAppState";
 // For getting data
 //const xys = store.getState().cats;
 
-//Multiple catsReducer
-const reducers = combineReducers({companiesState: companiesReducer, customersState: customersReducer, couponsState: couponsReducer});
+//Multiple reducers
+const reducers = combineReducers({
+    companiesState: companiesReducer,
+    customersState: customersReducer,
+    couponsState: couponsReducer,
+    customerCouponsState: customerCouponsReducer
+});
+
 const store = createStore(reducers)
 
 // For getting data

@@ -7,6 +7,7 @@ import CompaniesList from "../../AdminArea/CompaniesList/CompaniesList";
 import CustomersList from "../../AdminArea/CustomersList/CustomersList";
 import UpdateCompany from "../../AdminArea/UpdateCompany/UpdateCompany";
 import UpdateCustomer from "../../AdminArea/UpdateCustomer/UpdateCustomer";
+import ViewCouponsList from "../../AdminArea/ViewCouponsList/ViewCouponsList";
 import AddCoupon from "../../CompanyArea/AddCoupon/AddCoupon";
 import CompanyCoupons from "../../CompanyArea/CompanyCoupons/CompanyCoupons";
 import CompanyDetails from "../../CompanyArea/CompanyDetails/CompanyDetails";
@@ -37,10 +38,12 @@ function Routing(): JSX.Element {
                 <Route path="admin/add-company" element={<AddCompany />} />
                 <Route path="admin/update-company/:id" element={<UpdateCompany />} />
                 <Route path="admin/company" element={<CompaniesList />} />
+                <Route path="admin/company/:id/coupon" element={<ViewCouponsList/>}/>
 
                 <Route path="admin/add-customer" element={<AddCustomer />} />
                 <Route path="admin/update-customer/:id" element={<UpdateCustomer />} />
                 <Route path="admin/customer" element={<CustomersList />} />
+                <Route path="admin/customer/:id/coupon" element={<ViewCouponsList/>}/>
 
                 {/* Company Area */}
                 <Route path="company" element={<CompanyPage />} />

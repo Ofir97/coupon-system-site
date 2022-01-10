@@ -30,17 +30,13 @@ function CompanyCoupons(): JSX.Element {
         return axios.get<CouponsListModel>(globals.urls.companyCoupons);
     }
 
-    const getAllCoupons = async () => {
-        setCoupons(store.getState().couponsState.coupons);
-    }
-
     useEffect(() => {
 
         coupons.length === 0 && getCoupons()
             .then((response) => {
                 store.dispatch(couponsDownloadedAction(response.data.coupons));
                 setCoupons(response.data.coupons);
-                response.data.coupons.length > 0 && notify.success(SccMsg.ALL_COUPONS);
+                response.data.coupons.length > 0 && notify.success(SccMsg.ALL_COMPANY_COUPONS);
             })
             .catch((err) => {
                 notify.error(err);
@@ -67,7 +63,7 @@ function CompanyCoupons(): JSX.Element {
     return (
         <div className="CompanyCoupons">
             {coupons?.length > 0 && <><h2 className="display-5">Company's Coupons</h2>
-                <FilterSection filterCb={getCouponsFromFilter} allCouponsCb={getAllCoupons} resource="company" />
+                <FilterSection filterCb={getCouponsFromFilter} resource="company" />
                 <div className="row">
                     {coupons.map(coupon => {
                         return [

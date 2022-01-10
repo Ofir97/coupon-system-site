@@ -1,8 +1,14 @@
 .Header img{
-	width: 4%;
-    height: 50%;
-    float: left;
+	width: 45px;
+    height: 45px;
     position: relative;
-    top: 10%;
-    left: 1.5%;
+    bottom: 3px;
+    right: 5px;
+}
+
+.Header h6 {
+    display: inline;
+    font-size: larger;
+    color: rgb(32, 31, 31);
+    font-weight: 500;
 }

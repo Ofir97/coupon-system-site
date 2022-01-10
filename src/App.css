@@ -13,6 +13,7 @@
     background: rgb(122, 118, 223);
     background: linear-gradient(193deg, rgba(122, 118, 223, 1) 12%, rgba(184, 107, 196, 0.8015581232492998) 35%, rgba(122, 118, 223, 1) 88%);
     font-size: 120%;
+    border-bottom: 2px solid #474749;
 }
 
 .App>.Menu {
@@ -21,8 +22,7 @@
     display: flex;
     justify-content: center;
     padding-top: 5%;
-    background-color: #F7E2FF;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1200 800'%3E%3Cdefs%3E%3CradialGradient id='a' cx='0' cy='800' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23e8c9ed'/%3E%3Cstop offset='1' stop-color='%23e8c9ed' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='b' cx='1200' cy='800' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23fbf0ff'/%3E%3Cstop offset='1' stop-color='%23fbf0ff' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='c' cx='600' cy='0' r='600' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23edd7ec'/%3E%3Cstop offset='1' stop-color='%23edd7ec' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='d' cx='600' cy='800' r='600' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23F7E2FF'/%3E%3Cstop offset='1' stop-color='%23F7E2FF' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='e' cx='0' cy='0' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23DBB0DA'/%3E%3Cstop offset='1' stop-color='%23DBB0DA' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='f' cx='1200' cy='0' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23FFFFFF'/%3E%3Cstop offset='1' stop-color='%23FFFFFF' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect fill='url(%23a)' width='1200' height='800'/%3E%3Crect fill='url(%23b)' width='1200' height='800'/%3E%3Crect fill='url(%23c)' width='1200' height='800'/%3E%3Crect fill='url(%23d)' width='1200' height='800'/%3E%3Crect fill='url(%23e)' width='1200' height='800'/%3E%3Crect fill='url(%23f)' width='1200' height='800'/%3E%3C/svg%3E");
+    background-color: rgba(53, 56, 58, 0.8);
     background-attachment: fixed;
     background-size: cover;
 }
@@ -45,6 +45,7 @@
     justify-content: center;
     align-items: center;
     background-image: linear-gradient(to right top, #8f58b3, #5c4281, #6e5eac, #5359b6, #4c65c2);
+    border-top: 2px solid #474749;
 }
 
 .Form {
@@ -84,8 +85,8 @@
 }
 
 .myTable>thead {
-    color: rgb(255, 255, 255);
-    background-color: rgb(63, 146, 116, 0.9);
+    color: rgb(34, 34, 34);
+    background-color: rgba(114, 77, 182, 0.3);
 }
 
 .myTable>thead th {
@@ -102,11 +103,11 @@ td:first-child {
 }
 
 .myTable tr:nth-child(even) {
-    background-color: #DADDFC;
+    background-color: rgba(241, 240, 240, 0.1);
 }
 
 .myTable tr:nth-child(odd):not(thead>tr:first-child) {
-    background-color: #F0D9FF;
+    background-color: rgba(0,0,0,0.05);
 }
 
 .myTable button {
@@ -117,7 +118,7 @@ td:first-child {
     color: rgb(70, 27, 150);
     font-weight: 500;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    background-color: #979cce;
+    background-color: rgb(162, 145, 190);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1200 800'%3E%3Cdefs%3E%3CradialGradient id='a' cx='0' cy='800' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23cad2ff'/%3E%3Cstop offset='1' stop-color='%23cad2ff' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='b' cx='1200' cy='800' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23dbcbff'/%3E%3Cstop offset='1' stop-color='%23dbcbff' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='c' cx='600' cy='0' r='600' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23c7bcff'/%3E%3Cstop offset='1' stop-color='%23c7bcff' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='d' cx='600' cy='800' r='600' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23DEE1FF'/%3E%3Cstop offset='1' stop-color='%23DEE1FF' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='e' cx='0' cy='0' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23B6C3FF'/%3E%3Cstop offset='1' stop-color='%23B6C3FF' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='f' cx='1200' cy='0' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23D6B4FF'/%3E%3Cstop offset='1' stop-color='%23D6B4FF' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect fill='url(%23a)' width='1200' height='800'/%3E%3Crect fill='url(%23b)' width='1200' height='800'/%3E%3Crect fill='url(%23c)' width='1200' height='800'/%3E%3Crect fill='url(%23d)' width='1200' height='800'/%3E%3Crect fill='url(%23e)' width='1200' height='800'/%3E%3Crect fill='url(%23f)' width='1200' height='800'/%3E%3C/svg%3E");
     background-attachment: fixed;
     background-size: cover;
