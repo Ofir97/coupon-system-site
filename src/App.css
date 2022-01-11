@@ -22,9 +22,10 @@
     display: flex;
     justify-content: center;
     padding-top: 5%;
-    background-color: rgba(53, 56, 58, 0.8);
+    background-color: rgba(53, 56, 58, 0.75);
     background-attachment: fixed;
     background-size: cover;
+    border-right: 3px dashed #474749;
 }
 
 .App>.Main {
@@ -107,7 +108,7 @@ td:first-child {
 }
 
 .myTable tr:nth-child(odd):not(thead>tr:first-child) {
-    background-color: rgba(0,0,0,0.05);
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 .myTable button {

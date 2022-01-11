@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Button, Col, Nav, Row, Tab } from "react-bootstrap";
-import { CouponsListModel } from "../../../Models/resources-lists/CouponsList";
+import { CouponsListModel } from "../../../Models/models-lists/CouponsList";
 import store from "../../../Redux/Store";
 import globals from "../../../Services/Globals";
 import notify from "../../../Services/Notification";
@@ -9,7 +9,7 @@ import "./FilterSection.css";
 
 interface FilterSectionProps {
     filterCb: Function;
-    resource: string;
+    model: string;
 }
 
 function FilterSection(props: FilterSectionProps): JSX.Element {
@@ -18,18 +18,18 @@ function FilterSection(props: FilterSectionProps): JSX.Element {
     const [price, setPrice] = useState(0);
 
     const getURL = () => {
-        if (props.resource === 'company')
+        if (props.model === 'company')
             return globals.urls.companyCoupons;
-        if (props.resource === 'customer')
+        if (props.model === 'customer')
             return globals.urls.customerCoupons;
-        if (props.resource === 'coupon')
+        if (props.model === 'coupon')
             return globals.urls.coupons;
 
         return '';
     }
 
     const allCoupons = () => {
-        if (props.resource === 'customer') {
+        if (props.model === 'customer') {
             props.filterCb(store.getState().customerCouponsState.customerCoupons);
         }
         else { 

@@ -3,7 +3,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import "./Login.css";
 import { LoginModel } from "../../../Models/LoginModel";
-import { ClientType } from "../../../Models/ClientType";
 import globals from "../../../Services/Globals";
 import axios from "axios";
 import notify from "../../../Services/Notification";

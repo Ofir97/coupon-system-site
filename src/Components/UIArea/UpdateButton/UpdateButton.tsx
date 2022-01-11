@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "./UpdateButton.css";
 
 interface UpdateButtonProps {
-    resource: any;
+    model: any;
     path: string;
     id: number;
     tooltipMsg: string;
@@ -20,7 +20,7 @@ function UpdateButton(props: UpdateButtonProps): JSX.Element {
                 </Tooltip>
             )}>
 
-            <Link to={props.path + '/' + props.id} state={props.resource} className="btn btn-outline-info"><BsPencilSquare /></Link>
+            <Link to={props.path + '/' + props.id} state={props.model} className="btn btn-outline-info"><BsPencilSquare /></Link>
             </OverlayTrigger>
         </span>
     );

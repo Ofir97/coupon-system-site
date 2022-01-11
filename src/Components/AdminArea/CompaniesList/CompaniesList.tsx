@@ -4,7 +4,7 @@ import EmptyView from "../../SharedArea/EmptyView/EmptyView";
 import "./CompaniesList.css";
 import axios from "axios";
 import globals from "../../../Services/Globals";
-import { CompaniesListModel } from "../../../Models/resources-lists/CompaniesList";
+import { CompaniesListModel } from "../../../Models/models-lists/CompaniesList";
 import notify, { SccMsg } from "../../../Services/Notification";
 import GoMenu from "../../SharedArea/GoMenu/GoMenu";
 import AddButton from "../../UIArea/AddButton/AddButton";
@@ -15,6 +15,8 @@ import { ResponseDto } from "../../../Models/ResponseDto";
 import store from "../../../Redux/Store";
 import { companiesDeletedAction, companiesDownloadedAction } from "../../../Redux/CompaniesAppState";
 import TotalCompanies from "../TotalCompanies/TotalCompanies";
+import { RiCoupon3Line } from "react-icons/ri";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 function CompaniesList(): JSX.Element {
 
@@ -64,7 +66,7 @@ function CompaniesList(): JSX.Element {
                     <table className="myTable">
                         <thead>
                             <tr>
-                                <th>Id</th>
+                                <th>ID</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Password</th>
@@ -81,9 +83,10 @@ function CompaniesList(): JSX.Element {
                                         <td>{company.name}</td>
                                         <td>{company.email}</td>
                                         <td>{company.password}</td>
-                                        <td><Link to={company.id + '/coupon'} state={{model: 'company', coupons: company.coupons}} className="btn btn-outline-dark">View</Link></td>
-                                        <td><DeleteButton cb={deleteCompany} resource={"company"} id={company.id} /> &nbsp;
-                                            <UpdateButton id={company.id} resource={companies.filter(c => c.id === company.id)} path='/admin/update-company' tooltipMsg="update company" /></td>
+                                        <td><OverlayTrigger placement='top' overlay={(p) => (<Tooltip {...p}>view coupons</Tooltip>
+                                        )}><Link to={company.id + '/coupon'} state={{ model: 'company', coupons: company.coupons }} className="btn btn-outline-dark"><RiCoupon3Line /></Link></OverlayTrigger></td>
+                                        <td><DeleteButton cb={deleteCompany} model={"company"} id={company.id} /> &nbsp;
+                                            <UpdateButton id={company.id} model={companies.filter(c => c.id === company.id)} path='/admin/update-company' tooltipMsg="update company" /></td>
                                     </tr>
                                 ]
                             })}

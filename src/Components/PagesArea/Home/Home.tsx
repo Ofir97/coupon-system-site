@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Carousel } from "react-bootstrap";
 import { Coupon } from "../../../Models/Coupon";
-import { CouponsListModel } from "../../../Models/resources-lists/CouponsList";
+import { CouponsListModel } from "../../../Models/models-lists/CouponsList";
 import globals from "../../../Services/Globals";
 import notify from "../../../Services/Notification";
 import "./Home.css";

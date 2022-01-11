@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Customer } from "../../../Models/Customer";
-import { CustomersListModel } from "../../../Models/resources-lists/CustomersList";
+import { CustomersListModel } from "../../../Models/models-lists/CustomersList";
 import globals from "../../../Services/Globals";
 import "./CustomersList.css";
 import axios from "axios";
@@ -15,6 +15,8 @@ import { Link, useNavigate } from "react-router-dom";
 import TotalCustomers from "../TotalCustomers/TotalCustomers";
 import store from "../../../Redux/Store";
 import { customersDeletedAction, customersDownloadedAction } from "../../../Redux/CustomersAppState";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { RiCoupon3Line } from "react-icons/ri";
 
 function CustomersList(): JSX.Element {
 
@@ -85,9 +87,10 @@ function CustomersList(): JSX.Element {
                                     <td>{customer.lastName}</td>
                                     <td>{customer.email}</td>
                                     <td>{customer.password}</td>
-                                    <td><Link to={customer.id + '/coupon'} state={{model: 'customer', coupons: customer.coupons}} className="btn btn-outline-dark">View</Link></td>
-                                    <td><DeleteButton cb={deleteCustomer} resource={"customer"} id={customer.id} />&nbsp;
-                                        <UpdateButton resource={customers.filter(c => c.id === customer.id)} id={customer.id} path='/admin/update-customer' tooltipMsg="update customer" /></td>
+                                    <td><OverlayTrigger placement='top' overlay={(p) => (<Tooltip {...p}>view coupons</Tooltip>
+                                        )}><Link to={customer.id + '/coupon'} state={{model: 'customer', coupons: customer.coupons}} className="btn btn-outline-dark"><RiCoupon3Line /></Link></OverlayTrigger></td>
+                                    <td><DeleteButton cb={deleteCustomer} model={"customer"} id={customer.id} />&nbsp;
+                                        <UpdateButton model={customers.filter(c => c.id === customer.id)} id={customer.id} path='/admin/update-customer' tooltipMsg="update customer" /></td>
                                 </tr>
                             ]
                         })}

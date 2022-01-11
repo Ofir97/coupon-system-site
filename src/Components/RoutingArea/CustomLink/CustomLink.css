@@ -12,7 +12,7 @@
 	font-weight: bold;
 	font-size: large;
 	animation-name: highlight;
-	animation-duration: 0.1s;
+	animation-duration: 0.15s;
 }
 
 .LinkStyle:hover {
@@ -32,10 +32,12 @@
 
 @keyframes highlight {
 	from {
+		font-size: medium;
 		font-weight: 400;
 	}
 
 	to {
 		font-weight: bold;
+		font-size: large;
 	}
 }

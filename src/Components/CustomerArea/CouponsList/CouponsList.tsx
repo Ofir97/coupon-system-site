@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { RiH1 } from "react-icons/ri";
 import { Coupon } from "../../../Models/Coupon";
-import { CouponsListModel } from "../../../Models/resources-lists/CouponsList";
+import { CouponsListModel } from "../../../Models/models-lists/CouponsList";
 import { ResponseDto } from "../../../Models/ResponseDto";
 import { couponsDownloadedAction } from "../../../Redux/CouponsAppState";
 import store from "../../../Redux/Store";
@@ -17,6 +17,7 @@ import PurchaseButton from "../../UIArea/PurchaseButton/PurchaseButton";
 import "./CouponsList.css";
 import FilterSection from "../../UIArea/FilterSection/FilterSection";
 import { customerCouponsAddedAction, customerCouponsDownloadedAction } from "../../../Redux/CustomerCouponsAppState";
+import { customersAddedAction, customersUpdatedAction } from "../../../Redux/CustomersAppState";
 
 function CouponsList(): JSX.Element {
 
@@ -88,7 +89,7 @@ function CouponsList(): JSX.Element {
     return (
         <div className="CouponsList">
             {coupons?.length > 0 && <><h2 className="display-5">All coupons</h2>
-            <FilterSection filterCb={getCouponsFromFilter} resource="coupon" />
+            <FilterSection filterCb={getCouponsFromFilter} model="coupon" />
             <div className="row">
                 {coupons.map(coupon => {
                     return [
@@ -105,7 +106,7 @@ function CouponsList(): JSX.Element {
                                     <li className="list-group-item"><span>end date: </span><ILTime date={coupon.endDate} /></li>
                                     <li className="list-group-item"><span>Price: </span>{coupon.price.toFixed(2)}$</li>
                                     <li className="list-group-item"><span>{isCouponPurchased(coupon.id) ? <div className="purchased-msg">purchased</div> :
-                                        (<PurchaseButton cb={purchaseCoupon} couponId={coupon.id} />)
+                                        (<PurchaseButton cb={purchaseCoupon} couponId={coupon.id} couponTitle={coupon.title}/>)
                                     }</span></li>
                                 </ul>
                             </div>

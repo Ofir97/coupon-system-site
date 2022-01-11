@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Coupon } from "../../../Models/Coupon";
-import { CouponsListModel } from "../../../Models/resources-lists/CouponsList";
+import { CouponsListModel } from "../../../Models/models-lists/CouponsList";
 import { customerCouponsDownloadedAction } from "../../../Redux/CustomerCouponsAppState";
 import store from "../../../Redux/Store";
 import globals from "../../../Services/Globals";
@@ -44,7 +44,7 @@ function CustomerCoupons(): JSX.Element {
     return (
         <div className="CustomerCoupons">
             {coupons?.length > 0 && <><h2 className="display-5">Purchased Coupons</h2>
-                <FilterSection filterCb={getCouponsFromFilter} resource="customer" />
+                <FilterSection filterCb={getCouponsFromFilter} model="customer" />
                 <div className="row">
                     {coupons.map(coupon => {
                         return [

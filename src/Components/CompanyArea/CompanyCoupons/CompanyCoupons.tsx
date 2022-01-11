@@ -4,7 +4,7 @@ import EmptyView from "../../SharedArea/EmptyView/EmptyView";
 import globals from "../../../Services/Globals";
 import "./CompanyCoupons.css";
 import axios from "axios";
-import { CouponsListModel } from "../../../Models/resources-lists/CouponsList";
+import { CouponsListModel } from "../../../Models/models-lists/CouponsList";
 import notify, { SccMsg } from "../../../Services/Notification";
 import Avatar from "../../SharedArea/Avatar/Avatar";
 import GoMenu from "../../SharedArea/GoMenu/GoMenu";
@@ -63,7 +63,8 @@ function CompanyCoupons(): JSX.Element {
     return (
         <div className="CompanyCoupons">
             {coupons?.length > 0 && <><h2 className="display-5">Company's Coupons</h2>
-                <FilterSection filterCb={getCouponsFromFilter} resource="company" />
+                <FilterSection filterCb={getCouponsFromFilter} model="company" />
+                <Link to="/company/add-coupon" className="btn btn-success">Add a new Coupon</Link>
                 <div className="row">
                     {coupons.map(coupon => {
                         return [
@@ -79,22 +80,23 @@ function CompanyCoupons(): JSX.Element {
                                         <li className="list-group-item"><span>end date: </span><ILTime date={coupon.endDate} /></li>
                                         <li className="list-group-item"><span>Amount: </span>{coupon.amount}</li>
                                         <li className="list-group-item"><span>Price: </span>{coupon.price.toFixed(2)}$</li>
-                                        <li className="list-group-item"><span>Actions: <DeleteButton cb={deleteCoupon} resource={"coupon"} id={coupon.id} />&nbsp;
-                                            <UpdateButton id={coupon.id} resource={coupons.filter(c => c.id === coupon.id)} path={"/company/update-coupon"} tooltipMsg={"update coupon"} /></span></li>
+                                        <li className="list-group-item"><span>Actions: <DeleteButton cb={deleteCoupon} model={"coupon"} id={coupon.id} />&nbsp;
+                                            <UpdateButton id={coupon.id} model={coupons.filter(c => c.id === coupon.id)} path={"/company/update-coupon"} tooltipMsg={"update coupon"} /></span></li>
                                     </ul>
                                 </div>
                             </div>
                         ]
                     })}
 
-                    
+                    <GoMenu to='/company' />
                 </div></>
 
             }
 
-            {coupons?.length === 0 && <EmptyView message='Ooops.. No coupons to display!' />}
-            <GoMenu to='/company' />
-            <Link to="/company/add-coupon" className="btn btn-success">Add a new Coupon</Link>
+            {coupons?.length === 0 && <><EmptyView message='Ooops.. No coupons to display!' />
+                <GoMenu to='/company' />
+                <Link to="/company/add-coupon" className="btn btn-success">Add a new Coupon</Link></>}
+
 
         </div>
     );

@@ -21,7 +21,7 @@
 }
 
 .Home h4 {
-    color: rgb(144, 215, 233);
+    color: rgb(169, 213, 241);
 }
 
 .Home .description {
@@ -33,7 +33,7 @@
 
 .Home .price {
     font-size: large;
-    color:rgb(27, 26, 26);
-    background-color: rgb(216, 85, 124, 0.6);
+    color:rgb(17, 16, 16);
+    background-color: rgb(216, 85, 124, 0.5);
     padding: 0.8%;
 }
