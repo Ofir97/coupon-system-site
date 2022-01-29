@@ -25,7 +25,7 @@ function CustomerPage(): JSX.Element {
 
     return (
         <div className="CustomerPage">
-            <h2>{displayGreetings(time)} Customer!</h2>
+            <h2 className="display-6">{displayGreetings(time)} Customer!</h2>
             <div className="row">
                 <div className="col-sm-3">
                     <div className="card">

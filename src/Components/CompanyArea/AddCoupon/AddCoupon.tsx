@@ -62,7 +62,7 @@ function AddCoupon(): JSX.Element {
 
     return (
         <div className="AddCoupon">
-            <h2>Add Coupon</h2>
+            <h4 className="display-6">Add Coupon</h4>
             <form onSubmit={handleSubmit(sendToRemoteServer)} className="Form form-inline was-validated" noValidate >
                 <div className="form-group row">
                     <label className="col-4 col-form-label">Title</label>
@@ -120,7 +120,6 @@ function AddCoupon(): JSX.Element {
                     </div>
                 </div>
 
-
                 <div className="form-group row">
                     <label className="col-4 col-form-label">Price</label>
                     <div className="col-8">
@@ -148,7 +147,7 @@ function AddCoupon(): JSX.Element {
                 <div className="form-group row">
                     <label className="col-4 col-form-label">Category</label>
                     <div className="col-8">
-                        <select {...register("category")} defaultValue={''} className="custom-select" required>
+                        <select {...register("category")} defaultValue={''} className="form-select" required>
                             <option value="" disabled>Choose Category</option>
                             <option value="FOOD">Food</option>
                             <option value="ELECTRICITY">Electricity</option>
@@ -164,7 +163,7 @@ function AddCoupon(): JSX.Element {
 
 
                 <div className="form-group row">
-                    <div className="offset-4 col-8">
+                    <div className="btn-container">
                         <button disabled={!isValid} name="submit" type="submit" className="btn btn-primary">Add Coupon</button>
                     </div>
                 </div>

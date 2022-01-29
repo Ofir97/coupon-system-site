@@ -18,6 +18,7 @@ import CustomerCoupons from "../../CustomerArea/CustomerCoupons/CustomerCoupons"
 import CustomerDetails from "../../CustomerArea/CustomerDetails/CustomerDetails";
 import CustomerPage from "../../CustomerArea/CustomerPage/CustomerPage";
 import About from "../../PagesArea/About/About";
+import ContactUs from "../../PagesArea/ContactUs/ContactUs";
 import Home from "../../PagesArea/Home/Home";
 import Login from "../../PagesArea/Login/Login";
 import Page404 from "../../SharedArea/Page404/Page404";
@@ -31,6 +32,7 @@ function Routing(): JSX.Element {
                 <Route index element={<Home />} />
                 <Route path="about" element={<About />} />
                 <Route path="login" element={<Login />} />
+                <Route path="contact-us" element={<ContactUs />} />
                 <Route path="*" element={<Page404 />} />
 
                 {/* Admin Area */}
@@ -38,26 +40,26 @@ function Routing(): JSX.Element {
                 <Route path="admin/add-company" element={<AddCompany />} />
                 <Route path="admin/update-company/:id" element={<UpdateCompany />} />
                 <Route path="admin/company" element={<CompaniesList />} />
-                <Route path="admin/company/:id/coupon" element={<ViewCouponsList/>}/>
+                <Route path="admin/company/:id/coupon" element={<ViewCouponsList />} />
 
                 <Route path="admin/add-customer" element={<AddCustomer />} />
                 <Route path="admin/update-customer/:id" element={<UpdateCustomer />} />
                 <Route path="admin/customer" element={<CustomersList />} />
-                <Route path="admin/customer/:id/coupon" element={<ViewCouponsList/>}/>
+                <Route path="admin/customer/:id/coupon" element={<ViewCouponsList />} />
 
                 {/* Company Area */}
                 <Route path="company" element={<CompanyPage />} />
                 <Route path="company/add-coupon" element={<AddCoupon />} />
                 <Route path="company/update-coupon/:id" element={<UpdateCoupon />} />
-                <Route path="company/coupons" element={<CompanyCoupons/>} />
-                <Route path="company/company-details" element={<CompanyDetails/>} />
+                <Route path="company/coupons" element={<CompanyCoupons />} />
+                <Route path="company/company-details" element={<CompanyDetails />} />
 
                 {/* Customer Area */}
                 <Route path="customer" element={<CustomerPage />} />
                 <Route path="customer/coupons" element={<CouponsList />} />
                 <Route path="customer/purchased-coupons" element={<CustomerCoupons />} />
-                <Route path="customer/customer-details" element={<CustomerDetails/>} />
-                
+                <Route path="customer/customer-details" element={<CustomerDetails />} />
+
             </Routes>
         </div>
     );

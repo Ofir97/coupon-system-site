@@ -7,6 +7,9 @@ import globals from "../../../Services/Globals";
 import axios from "axios";
 import notify from "../../../Services/Notification";
 import { useNavigate } from "react-router-dom";
+import {HiOutlineMail} from "react-icons/hi";
+import {RiLockPasswordLine} from "react-icons/ri";
+import {FaRegUserCircle} from "react-icons/fa";
 
 function Login(): JSX.Element {
 
@@ -66,10 +69,10 @@ function Login(): JSX.Element {
 
     return (
         <div className="Login">
-            <h2>Login</h2>
+            <h3 className="display-5">Login</h3>
             <form onSubmit={handleSubmit(sendToRemoteServer)} className="Form form-inline was-validated" noValidate>
                 <div className="form-group">
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="email"><HiOutlineMail/><span> Email</span></label>
                     <input {...register("email")} placeholder="Email Address" type="text" className="form-control" aria-describedby="emailHelpBlock" required />
                     <div className="invalid-feedback"></div>
                     <span className="bad">{errors.email?.message}</span>
@@ -77,7 +80,7 @@ function Login(): JSX.Element {
 
 
                 <div className="form-group">
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password"><RiLockPasswordLine/><span> Password</span></label>
                     <input {...register("password")} placeholder="Password" type="password" className="form-control" aria-describedby="passwordHelpBlock" required />
                     <div className="invalid-feedback"></div>
                     <span id="passwordHelpBlock" className="bad">{errors.password?.message}</span>
@@ -85,9 +88,9 @@ function Login(): JSX.Element {
 
 
                 <div className="form-group">
-                    <label htmlFor="select">Select</label>
+                    <label htmlFor="select"><FaRegUserCircle/><span> Client Type</span></label>
                     <div>
-                        <select {...register("clientType")} className="custom-select" required defaultValue={''}>
+                        <select {...register("clientType")} className="form-select" required defaultValue={''}>
                             <option value="" disabled>Choose Type</option>
                             <option value="ADMINISTRATOR">Admin</option>
                             <option value="COMPANY">Company</option>
@@ -98,7 +101,7 @@ function Login(): JSX.Element {
 
                 </div>
 
-                <div className="form-group">
+                <div className="form-group btn-container">
                     <button disabled={!isDirty || !isValid} name="submit" type="submit" className="btn btn-primary">Login</button>
                 </div>
             </form>

@@ -1,9 +1,10 @@
 import "./Footer.css";
+import { BiCopyright } from "react-icons/bi";
 
 function Footer(): JSX.Element {
     return (
         <div className="Footer">
-            <p>©All rights reserved to Ofir</p>
+            <p><span><BiCopyright /></span> All rights reserved to Ofir</p>
         </div>
     );
 }

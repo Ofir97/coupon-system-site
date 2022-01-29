@@ -49,7 +49,7 @@ function AddCompany(): JSX.Element {
 
     return (
         <div className="AddCompany"  >
-            <h2>Add Company</h2>
+            <h3 className="display-6">Add Company</h3>
             <form onSubmit={handleSubmit(sendToRemoteServer)} className="Form form-inline was-validated" noValidate>
                 <div className="form-group row">
                     <label className="col-4 col-form-label">Company Name</label>
@@ -87,7 +87,7 @@ function AddCompany(): JSX.Element {
 
 
                 <div className="form-group row">
-                    <div className="offset-4 col-8">
+                    <div className="btn-container">
                         <button disabled={!isValid} name="submit" type="submit" className="btn btn-primary">Add Company</button>
                     </div>
                 </div>

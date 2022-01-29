@@ -17,7 +17,6 @@ import PurchaseButton from "../../UIArea/PurchaseButton/PurchaseButton";
 import "./CouponsList.css";
 import FilterSection from "../../UIArea/FilterSection/FilterSection";
 import { customerCouponsAddedAction, customerCouponsDownloadedAction } from "../../../Redux/CustomerCouponsAppState";
-import { customersAddedAction, customersUpdatedAction } from "../../../Redux/CustomersAppState";
 
 function CouponsList(): JSX.Element {
 
@@ -99,7 +98,7 @@ function CouponsList(): JSX.Element {
                             <div className="card-body">
                                 <h4 className="card-title">{coupon.title}</h4>
                                 <h5>{Utils.lowerCaseAndCapitalizeFirstLetter(coupon.category.toString())}</h5>
-                                <p className="card-text">{coupon.description}</p>
+                                <div className="description-box"><p className="card-text">{coupon.description}</p></div>
 
                                 <ul className="list-group list-group-flush">
                                     <li className="list-group-item"><span>start date: </span><ILTime date={coupon.startDate} /></li>

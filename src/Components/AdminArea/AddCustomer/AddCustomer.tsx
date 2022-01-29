@@ -25,7 +25,7 @@ function AddCustomer(): JSX.Element {
     const {
         register,
         handleSubmit,
-        formState: { errors, isDirty, isValid },
+        formState: { errors, isValid },
     } = useForm<Customer>({
         mode: "all",
         resolver: zodResolver(schema),
@@ -50,7 +50,7 @@ function AddCustomer(): JSX.Element {
 
     return (
         <div className="AddCustomer">
-            <h2>Add Customer</h2>
+            <h3 className="display-6">Add Customer</h3>
             <form onSubmit={handleSubmit(sendToRemoteServer)} className="Form form-inline was-validated" noValidate>
                 <div className="form-group row">
                     <label className="col-4 col-form-label">First Name</label>
@@ -100,7 +100,7 @@ function AddCustomer(): JSX.Element {
                 </div>
 
                 <div className="form-group row">
-                    <div className="offset-4 col-8">
+                    <div className="btn-container">
                         <button disabled={ !isValid } name="submit" type="submit" className="btn btn-primary">Add Customer</button>
                     </div>
                 </div>

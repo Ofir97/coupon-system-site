@@ -25,7 +25,7 @@ function AdminPage(): JSX.Element {
 
     return (
         <div className="AdminPage">
-            <h2>{displayGreetings(time)} Admin!</h2>
+            <h2 className="display-6">{displayGreetings(time)} Admin!</h2>
             <div className="row">           
                 <div className="col-sm-5">
                     <div className="card">

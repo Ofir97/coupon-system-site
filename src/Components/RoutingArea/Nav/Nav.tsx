@@ -10,6 +10,7 @@ function Nav(): JSX.Element {
                 <CustomLink to="/company">Company</CustomLink>
                 <CustomLink to="/customer">Customer</CustomLink>
                 <CustomLink to="/about">About</CustomLink>
+                <CustomLink to="/contact-us">Contact Us</CustomLink>
             </nav>
         </div>
     );

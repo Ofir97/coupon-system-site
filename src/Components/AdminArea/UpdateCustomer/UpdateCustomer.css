@@ -7,8 +7,9 @@
     margin-top: 1%;
 }
 
-.UpdateCustomer h2 {
+.UpdateCustomer h3 {
     color: rgb(204, 78, 187);
+    margin: 5% 0;
 }
 
 .UpdateCustomer .Form {
@@ -32,4 +33,21 @@ input {
 .UpdateCustomer textarea {
     font-family: cursive;
     font-style: italic;
+}
+
+.UpdateCustomer label {
+    color: rgb(61, 87, 204);
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+    font-size: larger;
+    text-shadow: 0 1px 0 rgba(173, 171, 171, 0.8);
+    margin-bottom: 0.5%;
+}
+
+.UpdateCustomer .btn-container>button {
+    margin-top: 2%;
+    width: 40%;
+}
+
+.UpdateCustomer .btn-container {
+    text-align: center;
 }

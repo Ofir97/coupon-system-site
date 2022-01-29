@@ -76,10 +76,10 @@ function UpdateCoupon(): JSX.Element {
 
     return (
         <div className="UpdateCoupon">
-            {coupon !== null && <><h2>Update Coupon</h2>
+            {coupon !== null && <><h3 className="display-6">Update Coupon</h3>
                 <form onSubmit={handleSubmit(sendToRemoteServer)} className="Form form-inline was-validated"  >
                     <div className="form-group row">
-                        <label className="col-4 col-form-label">Id</label>
+                        <label className="col-4 col-form-label">ID</label>
                         <div className="col-8">
                             <div className="input-group">
                                 <input {...register("id")} disabled type="text" className="form-control" defaultValue={id} />
@@ -171,7 +171,7 @@ function UpdateCoupon(): JSX.Element {
                     <div className="form-group row">
                         <label className="col-4 col-form-label">Category</label>
                         <div className="col-8">
-                            <select {...register("category")} value={category} onChange={e => onSelectChange(e.target.value)} className="custom-select" required>
+                            <select {...register("category")} value={category} onChange={e => onSelectChange(e.target.value)} className="form-select" required>
                                 <option value="" disabled>Choose Category</option>
                                 <option value="FOOD">Food</option>
                                 <option value="ELECTRICITY">Electricity</option>
@@ -187,7 +187,7 @@ function UpdateCoupon(): JSX.Element {
 
 
                     <div className="form-group row">
-                        <div className="offset-4 col-8">
+                        <div className="btn-container">
                             <button disabled={!isValid} name="submit" type="submit" className="btn btn-primary">Update Coupon</button>
                         </div>
                     </div>

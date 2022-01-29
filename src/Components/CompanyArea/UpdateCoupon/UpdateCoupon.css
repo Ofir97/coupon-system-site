@@ -7,8 +7,9 @@
     margin-top: 1%;
 }
 
-.UpdateCoupon h2 {
+.UpdateCoupon h3 {
     color: rgb(204, 78, 187);
+    margin: 5% 0;
 }
 
 .UpdateCoupon .Form {
@@ -32,4 +33,21 @@ input {
 .UpdateCoupon textarea {
     font-family: cursive;
     font-style: italic;
+}
+
+.UpdateCoupon label {
+    color: rgb(61, 87, 204);
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+    font-size: larger;
+    text-shadow: 0 1px 0 rgba(173, 171, 171, 0.8);
+    margin-bottom: 0.5%;
+}
+
+.UpdateCoupon .btn-container>button {
+    margin-top: 2%;
+    width: 40%;
+}
+
+.UpdateCoupon .btn-container {
+    text-align: center;
 }

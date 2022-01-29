@@ -1,3 +1,32 @@
-.About {
-	
+.About {}
+
+.About .card {
+    width: 60%;
+    margin: auto;
+}
+
+.About .card-header {
+    color: rgb(51, 68, 165);
+}
+
+.About .contact-logo {
+    font-size: larger;
+    position: relative;
+    bottom: 1px;
+}
+
+.About .question-logo {
+    font-size: large;
+    position: relative;
+    bottom: 3px;
+}
+
+.About .technology-logo {
+    position: relative;
+    bottom: 1.3px;
+}
+
+.About p {
+    font-family: 'Caveat', cursive;
+    /* font-weight: 200; */
 }
