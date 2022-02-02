@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Company } from "../../../Models/Company";
+import store from "../../../Redux/Store";
 import globals from "../../../Services/Globals";
-import notify from "../../../Services/Notification";
+import tokenAxios from "../../../Services/InterceptorAxios";
+import notify, { ErrMsg } from "../../../Services/Notification";
 import EmptyView from "../../SharedArea/EmptyView/EmptyView";
 import GoMenu from "../../SharedArea/GoMenu/GoMenu";
 import "./CompanyDetails.css";
@@ -12,12 +14,25 @@ function CompanyDetails(): JSX.Element {
 
     const init: Company = undefined;
     const [company, setCompany] = useState<Company>(init);
+    const navigate = useNavigate();
 
     const getCompany = async () => {
-        return axios.get<Company>(globals.urls.company);
+        return tokenAxios.get<Company>(globals.urls.company);
     }
 
     useEffect(() => {
+        if (!store.getState().authState?.user) {
+            notify.error(ErrMsg.PLS_LOGIN);
+            navigate('/login');
+            return;
+        }
+
+        if (store.getState().authState?.user?.clientType.toString() !== 'COMPANY') {
+            notify.error(ErrMsg.UNAUTHORIZED);
+            navigate('/');
+            return;
+        }
+
         getCompany()
             .then((response) => {
                 (Object.keys(response.data).length !== 0) && setCompany(response.data);

@@ -4,6 +4,7 @@ import { Button, Col, Nav, Row, Tab } from "react-bootstrap";
 import { CouponsListModel } from "../../../Models/models-lists/CouponsList";
 import store from "../../../Redux/Store";
 import globals from "../../../Services/Globals";
+import tokenAxios from "../../../Services/InterceptorAxios";
 import notify from "../../../Services/Notification";
 import "./FilterSection.css";
 
@@ -41,7 +42,7 @@ function FilterSection(props: FilterSectionProps): JSX.Element {
         e.preventDefault();
         const url = getURL();
 
-        axios.get<CouponsListModel>(url + '/byMaxPrice?maxPrice=' + price)
+        tokenAxios.get<CouponsListModel>(url + '/byMaxPrice?maxPrice=' + price)
             .then((response) => {
                 props.filterCb(response.data.coupons);
             })
@@ -55,7 +56,7 @@ function FilterSection(props: FilterSectionProps): JSX.Element {
         e.preventDefault();
         const url = getURL();
 
-        axios.get<CouponsListModel>(url + '/byCategory?category=' + category)
+        tokenAxios.get<CouponsListModel>(url + '/byCategory?category=' + category)
             .then((response) => {
                 props.filterCb(response.data.coupons);
             })

@@ -1,5 +1,8 @@
-import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Coupon } from "../../../Models/Coupon";
+import store from "../../../Redux/Store";
+import notify, { ErrMsg } from "../../../Services/Notification";
 import { Utils } from "../../../Services/Utils";
 import Avatar from "../../SharedArea/Avatar/Avatar";
 import EmptyView from "../../SharedArea/EmptyView/EmptyView";
@@ -9,10 +12,25 @@ import "./ViewCouponsList.css";
 
 function ViewCouponsList(): JSX.Element {
 
+    const navigate = useNavigate();
     const location = useLocation();
     const state: any = location.state;
     const coupons = state.coupons as Coupon[];
     const model = state.model as string;
+
+    useEffect(() => {
+        if (!store.getState().authState?.user) {
+            notify.error(ErrMsg.PLS_LOGIN);
+            navigate('/login');
+            return;
+        }
+    
+        if (store.getState().authState?.user?.clientType.toString() !== 'ADMIN') {
+            notify.error(ErrMsg.UNAUTHORIZED);
+            navigate('/');
+            return;
+        }
+    })
 
     return (
         <div className="ViewCouponsList">
@@ -43,7 +61,7 @@ function ViewCouponsList(): JSX.Element {
             </>
             }
 
-            {coupons?.length === 0 && <EmptyView message='Ooops.. No coupons to display!' />}
+            {(!coupons || coupons?.length === 0) && <EmptyView message='Ooops.. No coupons to display!' />}
             <GoMenu to={'/admin/' + model} />
         </div>
     );

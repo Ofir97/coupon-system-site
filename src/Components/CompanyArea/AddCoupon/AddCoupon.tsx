@@ -5,16 +5,32 @@ import * as z from 'zod';
 import "./AddCoupon.css";
 import axios from "axios";
 import globals from "../../../Services/Globals";
-import notify, { SccMsg } from "../../../Services/Notification";
+import notify, { ErrMsg, SccMsg } from "../../../Services/Notification";
 import GoMenu from "../../SharedArea/GoMenu/GoMenu";
-import { ResponseDto } from "../../../Models/ResponseDto";
+import { ResponseDto } from "../../../Models/dto/ResponseDto";
 import { useNavigate } from "react-router-dom";
 import { couponsAddedAction } from "../../../Redux/CouponsAppState";
 import store from "../../../Redux/Store";
+import tokenAxios from "../../../Services/InterceptorAxios";
+import { useEffect } from "react";
 
 function AddCoupon(): JSX.Element {
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!store.getState().authState?.user) {
+            notify.error(ErrMsg.PLS_LOGIN);
+            navigate('/login');
+            return;
+        }
+
+        if (store.getState().authState?.user?.clientType.toString() !== 'COMPANY') {
+            notify.error(ErrMsg.UNAUTHORIZED);
+            navigate('/');
+            return;
+        }
+    })
 
     const schema = z.object({
 
@@ -45,7 +61,7 @@ function AddCoupon(): JSX.Element {
 
 
     const sendToRemoteServer = async (coupon: Coupon) => {
-        axios.post<ResponseDto>(globals.urls.companyCoupons, coupon)
+        tokenAxios.post<ResponseDto>(globals.urls.companyCoupons, coupon)
             .then(response => {
                 if (response.data.success) {
                     notify.success(SccMsg.ADDED_COUPON);
@@ -53,10 +69,16 @@ function AddCoupon(): JSX.Element {
                     store.dispatch(couponsAddedAction(coupon));
                     navigate('/company/coupons');
                 }
-                else notify.error(response.data.message);
             })
             .catch((err) => {
-                notify.error(err);
+                switch (err.response.status) {
+                    case 401:
+                        notify.error(ErrMsg.ILLEGAL_OPERATION);
+                        break;
+                    case 403:
+                        notify.error(err.response.data);
+                        break;
+                }
             })
     }
 

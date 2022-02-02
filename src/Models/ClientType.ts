@@ -1,3 +1,3 @@
 export enum ClientType {
-    ADMINISTRATOR, COMPANY, CUSTOMER
+    ADMIN, COMPANY, CUSTOMER
 }

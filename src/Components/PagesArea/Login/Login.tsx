@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import "./Login.css";
-import { LoginModel } from "../../../Models/LoginModel";
+import { CredentialsModel } from "../../../Models/dto/CredentialsModel";
 import globals from "../../../Services/Globals";
 import axios from "axios";
 import notify from "../../../Services/Notification";
@@ -10,6 +10,10 @@ import { useNavigate } from "react-router-dom";
 import {HiOutlineMail} from "react-icons/hi";
 import {RiLockPasswordLine} from "react-icons/ri";
 import {FaRegUserCircle} from "react-icons/fa";
+import { UserModel } from "../../../Models/dto/UserModel";
+import { useState } from "react";
+import store from "../../../Redux/Store";
+import { loginAction } from "../../../Redux/AuthAppState";
 
 function Login(): JSX.Element {
 
@@ -25,19 +29,19 @@ function Login(): JSX.Element {
         register, // takes hold of all input fields
         handleSubmit, //collects all field values {...register} and turns into LoginModel object
         formState: { errors, isDirty, isValid },
-    } = useForm<LoginModel>({
+    } = useForm<CredentialsModel>({
         mode: "all",
         resolver: zodResolver(schema),
     });
 
 
-    const login = async (url: string, loginModel: LoginModel) => {
-        return axios.post<Boolean>(url, loginModel);
+    const login = async (url: string, credentials: CredentialsModel) => {
+        return axios.post<UserModel>(url, credentials);
     }
 
-    const sendToRemoteServer = (loginModel: LoginModel) => {
+    const sendToRemoteServer = (credentials: CredentialsModel) => {
         let clientURL = '', clientRoute = '';
-        switch (loginModel.clientType.toString()) {
+        switch (credentials.clientType.toString()) {
             case 'ADMINISTRATOR':
                 clientURL = globals.urls.admin;
                 clientRoute = '/admin';
@@ -54,16 +58,15 @@ function Login(): JSX.Element {
 
         clientURL += '/login';
 
-        login(clientURL, loginModel)
+        login(clientURL, credentials)
             .then((response) => {
-                if (response.data) { //login is successful 
+                if (response.status === 200) { //login is successful 
+                    store.dispatch(loginAction(response.data))
                     navigate(clientRoute);
-                }
-                else notify.error('Login failed: bad credentials');
-                    
+                }   
             })
             .catch((err) => {
-                notify.error(err);
+                err.response.status === 401 ? notify.error('Login failed: bad credentials') : notify.error(err);
             })
     }
 

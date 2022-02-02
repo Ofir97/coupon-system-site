@@ -6,9 +6,6 @@ function Nav(): JSX.Element {
         <div className="Nav">
 			<nav className="flex-column">
                 <CustomLink to="/">Home</CustomLink>
-                <CustomLink to="/admin" >Admin</CustomLink>
-                <CustomLink to="/company">Company</CustomLink>
-                <CustomLink to="/customer">Customer</CustomLink>
                 <CustomLink to="/about">About</CustomLink>
                 <CustomLink to="/contact-us">Contact Us</CustomLink>
             </nav>

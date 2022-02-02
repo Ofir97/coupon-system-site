@@ -1,14 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import { Company } from "../../../Models/Company";
-import { ResponseDto } from "../../../Models/ResponseDto";
+import { ResponseDto } from "../../../Models/dto/ResponseDto";
 import { companiesUpdatedAction } from "../../../Redux/CompaniesAppState";
 import store from "../../../Redux/Store";
 import globals from "../../../Services/Globals";
-import notify from "../../../Services/Notification";
+import notify, { ErrMsg } from "../../../Services/Notification";
 import EmptyView from "../../SharedArea/EmptyView/EmptyView";
 import GoMenu from "../../SharedArea/GoMenu/GoMenu";
 import "./UpdateCompany.css";
@@ -22,6 +23,20 @@ function UpdateCompany(): JSX.Element {
     const stateArr = location.state as Company[];
     const company = stateArr && stateArr[0];
 
+    useEffect(() => {
+        if (!store.getState().authState?.user) {
+            notify.error(ErrMsg.PLS_LOGIN);
+            navigate('/login');
+            return;
+        }
+    
+        if (store.getState().authState?.user?.clientType.toString() !== 'ADMIN') {
+            notify.error(ErrMsg.UNAUTHORIZED);
+            navigate('/');
+            return;
+        }
+    })
+    
     const schema = z.object({
         name: z.string(),
         email: z.string().nonempty("Please provide a valid email.").email('Invalid email.'),

@@ -1,12 +1,28 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ClientType } from "../../../Models/ClientType";
+import store from "../../../Redux/Store";
+import notify, { ErrMsg } from "../../../Services/Notification";
 import "./CompanyPage.css";
 
 function CompanyPage(): JSX.Element {
 
+    const navigate = useNavigate();
     const [time, setTime] = useState(new Date());
 
     useEffect(() => {
+        if (!store.getState().authState?.user) {
+            notify.error(ErrMsg.PLS_LOGIN);
+            navigate('/login');
+            return;
+        }
+
+        if (store.getState().authState?.user?.clientType.toString() !== 'COMPANY') {
+            notify.error(ErrMsg.UNAUTHORIZED);
+            navigate('/');
+            return;
+        }
+        
         const timerId = setInterval(() => {
             setTime(new Date())
         }, 1000)
@@ -25,7 +41,7 @@ function CompanyPage(): JSX.Element {
 
     return (
         <div className="CompanyPage">
-            <h2 className="display-6">{displayGreetings(time)} Company!</h2>
+            <h2 className="display-6">{displayGreetings(time)} {store.getState().authState?.user?.name}!</h2>
             <div className="row">
                 <div className="col-sm-3">
                     <div className="card">

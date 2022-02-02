@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Coupon } from "../../../Models/Coupon";
 import { CouponsListModel } from "../../../Models/models-lists/CouponsList";
 import { customerCouponsDownloadedAction } from "../../../Redux/CustomerCouponsAppState";
 import store from "../../../Redux/Store";
 import globals from "../../../Services/Globals";
-import notify, { SccMsg } from "../../../Services/Notification";
+import tokenAxios from "../../../Services/InterceptorAxios";
+import notify, { ErrMsg, SccMsg } from "../../../Services/Notification";
 import { Utils } from "../../../Services/Utils";
 import Avatar from "../../SharedArea/Avatar/Avatar";
 import EmptyView from "../../SharedArea/EmptyView/EmptyView";
@@ -19,13 +20,14 @@ import "./CustomerCoupons.css";
 function CustomerCoupons(): JSX.Element {
 
     const [coupons, setCoupons] = useState<Coupon[]>(store.getState().customerCouponsState.customerCoupons);
+    const navigate = useNavigate();
 
     const getCouponsFromFilter = (coupons: Coupon[]) => {
         coupons?.length > 0 ? setCoupons(coupons) : notify.error('no coupons from this filter');
     }
 
     const getCoupons = async () => {
-        axios.get<CouponsListModel>(globals.urls.customerCoupons)
+        tokenAxios.get<CouponsListModel>(globals.urls.customerCoupons)
             .then(response => {
                 setCoupons(response.data.coupons);
                 store.dispatch(customerCouponsDownloadedAction(response.data.coupons));
@@ -37,6 +39,18 @@ function CustomerCoupons(): JSX.Element {
     }
 
     useEffect(() => {
+        if (!store.getState().authState?.user) {
+            notify.error(ErrMsg.PLS_LOGIN);
+            navigate('/login');
+            return;
+        }
+
+        if (store.getState().authState?.user?.clientType.toString() !== 'CUSTOMER') {
+            notify.error(ErrMsg.UNAUTHORIZED);
+            navigate('/');
+            return;
+        }
+
         coupons.length === 0 && getCoupons();
 
     }, [])

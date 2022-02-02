@@ -1,8 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Customer } from "../../../Models/Customer";
+import store from "../../../Redux/Store";
 import globals from "../../../Services/Globals";
-import notify from "../../../Services/Notification";
+import tokenAxios from "../../../Services/InterceptorAxios";
+import notify, { ErrMsg } from "../../../Services/Notification";
 import EmptyView from "../../SharedArea/EmptyView/EmptyView";
 import GoMenu from "../../SharedArea/GoMenu/GoMenu";
 import "./CustomerDetails.css";
@@ -12,12 +15,25 @@ function CustomerDetails(): JSX.Element {
 
     const init: Customer = undefined;
     const [customer, setCustomer] = useState<Customer>(init);
+    const navigate = useNavigate();
 
     const getCustomer = async () => {
-        return axios.get<Customer>(globals.urls.customer);
+        return tokenAxios.get<Customer>(globals.urls.customer);
     }
 
     useEffect(() => {
+        if (!store.getState().authState?.user) {
+            notify.error(ErrMsg.PLS_LOGIN);
+            navigate('/login');
+            return;
+        }
+
+        if (store.getState().authState?.user?.clientType.toString() !== 'CUSTOMER') {
+            notify.error(ErrMsg.UNAUTHORIZED);
+            navigate('/');
+            return;
+        }
+
         getCustomer()
             .then((response) => {
                 (Object.keys(response.data).length !== 0) && setCustomer(response.data);

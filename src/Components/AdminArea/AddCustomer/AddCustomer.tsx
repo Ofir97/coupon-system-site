@@ -6,14 +6,30 @@ import { Customer } from "../../../Models/Customer";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import globals from "../../../Services/Globals";
-import notify, { SccMsg } from "../../../Services/Notification";
+import notify, { ErrMsg, SccMsg } from "../../../Services/Notification";
 import { customersAddedAction } from "../../../Redux/CustomersAppState";
 import store from "../../../Redux/Store";
-import { ResponseDto } from "../../../Models/ResponseDto";
+import { ResponseDto } from "../../../Models/dto/ResponseDto";
+import tokenAxios from "../../../Services/InterceptorAxios";
+import { useEffect } from "react";
 
 function AddCustomer(): JSX.Element {
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!store.getState().authState?.user) {
+            notify.error(ErrMsg.PLS_LOGIN);
+            navigate('/login');
+            return;
+        }
+
+        if (store.getState().authState?.user?.clientType.toString() !== 'ADMIN') {
+            notify.error(ErrMsg.UNAUTHORIZED);
+            navigate('/');
+            return;
+        }
+    })
 
     const schema = z.object({
         firstName: z.string().nonempty("Please provide first name."),
@@ -32,7 +48,7 @@ function AddCustomer(): JSX.Element {
     });
 
     const sendToRemoteServer = async (customer: Customer) => {
-        axios.post<ResponseDto>(globals.urls.customers, customer)
+        tokenAxios.post<ResponseDto>(globals.urls.customers, customer)
             .then(response => {
                 if (response.data.success) {
                     notify.success(SccMsg.ADDED_CUSTOMER);
@@ -40,11 +56,16 @@ function AddCustomer(): JSX.Element {
                     store.dispatch(customersAddedAction(customer));
                     navigate('/admin/customer');
                 }
-                else notify.error(response.data.message);
-
             })
             .catch((err) => {
-                notify.error(err);
+                switch (err.response.status) {
+                    case 401:
+                        notify.error(ErrMsg.ILLEGAL_OPERATION);
+                        break;
+                    case 403:
+                        notify.error(err.response.data);
+                        break;
+                }
             })
     }
 

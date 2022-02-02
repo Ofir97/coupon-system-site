@@ -1,13 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { RiH1 } from "react-icons/ri";
 import { Coupon } from "../../../Models/Coupon";
 import { CouponsListModel } from "../../../Models/models-lists/CouponsList";
-import { ResponseDto } from "../../../Models/ResponseDto";
+import { ResponseDto } from "../../../Models/dto/ResponseDto";
 import { couponsDownloadedAction } from "../../../Redux/CouponsAppState";
 import store from "../../../Redux/Store";
 import globals from "../../../Services/Globals";
-import notify, { SccMsg } from "../../../Services/Notification";
+import notify, { ErrMsg, SccMsg } from "../../../Services/Notification";
 import { Utils } from "../../../Services/Utils";
 import Avatar from "../../SharedArea/Avatar/Avatar";
 import EmptyView from "../../SharedArea/EmptyView/EmptyView";
@@ -17,9 +16,12 @@ import PurchaseButton from "../../UIArea/PurchaseButton/PurchaseButton";
 import "./CouponsList.css";
 import FilterSection from "../../UIArea/FilterSection/FilterSection";
 import { customerCouponsAddedAction, customerCouponsDownloadedAction } from "../../../Redux/CustomerCouponsAppState";
+import tokenAxios from "../../../Services/InterceptorAxios";
+import { useNavigate } from "react-router-dom";
 
 function CouponsList(): JSX.Element {
 
+    const navigate = useNavigate();
     const [coupons, setCoupons] = useState<Coupon[]>(store.getState().couponsState.coupons);
     const [customerCoupons, setCustomerCoupons] = useState<Coupon[]>(store.getState().customerCouponsState.customerCoupons);
     const [rerender, setRerender] = useState(true);
@@ -29,7 +31,7 @@ function CouponsList(): JSX.Element {
     }
 
     const getAllCouponsFromServer = async () => {
-        axios.get<CouponsListModel>(globals.urls.coupons)
+        tokenAxios.get<CouponsListModel>(globals.urls.coupons)
         .then((response) => {
             store.dispatch(couponsDownloadedAction(response.data.coupons));
             setCoupons(response.data.coupons);
@@ -41,7 +43,7 @@ function CouponsList(): JSX.Element {
     }
 
     const getCustomerCouponsFromServer = async () => {
-        axios.get<CouponsListModel>(globals.urls.customerCoupons)
+        tokenAxios.get<CouponsListModel>(globals.urls.customerCoupons)
             .then(response => {
                 store.dispatch(customerCouponsDownloadedAction(response.data.coupons));
                 setCustomerCoupons(response.data.coupons);
@@ -52,13 +54,25 @@ function CouponsList(): JSX.Element {
     }
 
     useEffect(() => {
+        if (!store.getState().authState?.user) {
+            notify.error(ErrMsg.PLS_LOGIN);
+            navigate('/login');
+            return;
+        }
+
+        if (store.getState().authState?.user?.clientType.toString() !== 'CUSTOMER') {
+            notify.error(ErrMsg.UNAUTHORIZED);
+            navigate('/');
+            return;
+        }
+
         coupons?.length === 0 && getAllCouponsFromServer();
         customerCoupons?.length === 0 && getCustomerCouponsFromServer();
 
     }, [])
 
     const purchaseCoupon = async (couponId: number) => {
-        axios.get<ResponseDto>(globals.urls.customer + '/purchaseCoupon/' + couponId)
+        tokenAxios.get<ResponseDto>(globals.urls.customer + '/purchaseCoupon/' + couponId)
             .then(response => {
                 if (response.data.success) {
                     notify.success(response.data.message);
@@ -66,10 +80,16 @@ function CouponsList(): JSX.Element {
                     setCustomerCoupons(store.getState().customerCouponsState.customerCoupons);
                     setRerender(!rerender);
                 }
-                else notify.error(response.data.message);
             })
-            .catch(err => {
-                notify.error(err);
+            .catch((err) => {
+                switch (err.response.status) {
+                    case 401:
+                        notify.error(ErrMsg.ILLEGAL_OPERATION);
+                        break;
+                    case 403:
+                        notify.error(err.response.data);
+                        break;
+                }
             })
     }
 

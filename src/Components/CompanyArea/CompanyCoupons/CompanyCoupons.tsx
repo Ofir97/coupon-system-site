@@ -5,21 +5,23 @@ import globals from "../../../Services/Globals";
 import "./CompanyCoupons.css";
 import axios from "axios";
 import { CouponsListModel } from "../../../Models/models-lists/CouponsList";
-import notify, { SccMsg } from "../../../Services/Notification";
+import notify, { ErrMsg, SccMsg } from "../../../Services/Notification";
 import Avatar from "../../SharedArea/Avatar/Avatar";
 import GoMenu from "../../SharedArea/GoMenu/GoMenu";
 import DeleteButton from "../../UIArea/DeleteButton/DeleteButton";
 import UpdateButton from "../../UIArea/UpdateButton/UpdateButton";
 import { Utils } from "../../../Services/Utils";
-import { ResponseDto } from "../../../Models/ResponseDto";
+import { ResponseDto } from "../../../Models/dto/ResponseDto";
 import ILTime from "../../SharedArea/ILTime/ILTime";
 import store from "../../../Redux/Store";
 import { couponsDeletedAction, couponsDownloadedAction } from "../../../Redux/CouponsAppState";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FilterSection from "../../UIArea/FilterSection/FilterSection";
+import tokenAxios from "../../../Services/InterceptorAxios";
 
 function CompanyCoupons(): JSX.Element {
 
+    const navigate = useNavigate();
     const [coupons, setCoupons] = useState<Coupon[]>(store.getState().couponsState.coupons);
 
     const getCouponsFromFilter = (coupons: Coupon[]) => {
@@ -27,10 +29,22 @@ function CompanyCoupons(): JSX.Element {
     }
 
     const getCoupons = async () => {
-        return axios.get<CouponsListModel>(globals.urls.companyCoupons);
+        return tokenAxios.get<CouponsListModel>(globals.urls.companyCoupons);
     }
 
     useEffect(() => {
+
+        if (!store.getState().authState?.user) {
+            notify.error(ErrMsg.PLS_LOGIN);
+            navigate('/login');
+            return;
+        }
+
+        if (store.getState().authState?.user?.clientType.toString() !== 'COMPANY') {
+            notify.error(ErrMsg.UNAUTHORIZED);
+            navigate('/');
+            return;
+        }
 
         coupons.length === 0 && getCoupons()
             .then((response) => {
@@ -45,7 +59,7 @@ function CompanyCoupons(): JSX.Element {
     }, [])
 
     const deleteCoupon = async (id: number) => {
-        axios.delete<ResponseDto>(globals.urls.companyCoupons + '/' + id)
+        tokenAxios.delete<ResponseDto>(globals.urls.companyCoupons + '/' + id)
             .then(response => {
                 if (response.data.success) {
                     notify.success(response.data.message);

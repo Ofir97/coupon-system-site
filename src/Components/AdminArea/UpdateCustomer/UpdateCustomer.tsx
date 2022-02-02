@@ -5,11 +5,12 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import { Customer } from "../../../Models/Customer";
-import { ResponseDto } from "../../../Models/ResponseDto";
+import { ResponseDto } from "../../../Models/dto/ResponseDto";
 import { customersUpdatedAction } from "../../../Redux/CustomersAppState";
 import store from "../../../Redux/Store";
 import globals from "../../../Services/Globals";
-import notify from "../../../Services/Notification";
+import tokenAxios from "../../../Services/InterceptorAxios";
+import notify, { ErrMsg } from "../../../Services/Notification";
 import EmptyView from "../../SharedArea/EmptyView/EmptyView";
 import GoMenu from "../../SharedArea/GoMenu/GoMenu";
 import "./UpdateCustomer.css";
@@ -39,9 +40,23 @@ function UpdateCustomer(): JSX.Element {
         resolver: zodResolver(schema),
     });
 
+    useEffect(() => {
+        if (!store.getState().authState?.user) {
+            notify.error(ErrMsg.PLS_LOGIN);
+            navigate('/login');
+            return;
+        }
+    
+        if (store.getState().authState?.user?.clientType.toString() !== 'ADMIN') {
+            notify.error(ErrMsg.UNAUTHORIZED);
+            navigate('/');
+            return;
+        }
+    })
+
     const sendToRemoteServer = async (customer: Customer) => {
         customer.id = +id;
-        axios.put<ResponseDto>(globals.urls.customers, customer)
+        tokenAxios.put<ResponseDto>(globals.urls.customers, customer)
             .then(response => {
                 if (response.data.success) {
                     notify.success(response.data.message);

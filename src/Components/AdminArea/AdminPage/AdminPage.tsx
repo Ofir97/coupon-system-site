@@ -1,12 +1,27 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import store from "../../../Redux/Store";
+import notify, { ErrMsg } from "../../../Services/Notification";
 import "./AdminPage.css";
 
 function AdminPage(): JSX.Element {
 
+    const navigate = useNavigate();
     const [time, setTime] = useState(new Date());
 
     useEffect(() => {
+        if (!store.getState().authState?.user) {
+            notify.error(ErrMsg.PLS_LOGIN);
+            navigate('/login');
+            return;
+        }
+
+        if (store.getState().authState?.user?.clientType.toString() !== 'ADMIN') {
+            notify.error(ErrMsg.UNAUTHORIZED);
+            navigate('/');
+            return;
+        }
+
         const timerId = setInterval(() => {
             setTime(new Date())
         }, 1000)
@@ -26,7 +41,7 @@ function AdminPage(): JSX.Element {
     return (
         <div className="AdminPage">
             <h2 className="display-6">{displayGreetings(time)} Admin!</h2>
-            <div className="row">           
+            <div className="row">
                 <div className="col-sm-5">
                     <div className="card">
                         <div className="card-body">
@@ -46,8 +61,8 @@ function AdminPage(): JSX.Element {
                     </div>
                 </div>
             </div>
-            
-            
+
+
         </div>
     );
 }

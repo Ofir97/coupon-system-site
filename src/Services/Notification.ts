@@ -13,7 +13,9 @@ export enum SccMsg {
 
 }
 export enum ErrMsg {
-
+    PLS_LOGIN = 'please login to the site',
+    UNAUTHORIZED = 'access denied',
+    ILLEGAL_OPERATION = "operation is not allowed"
 }
 class Notify {
 
@@ -46,7 +48,7 @@ class Notify {
         }
 
 
-        return "Miaouuuu, an error occurred, please try again.";
+        return "general error occurred, please try again.";
     }
 }
 

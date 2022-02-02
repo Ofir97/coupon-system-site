@@ -12,3 +12,36 @@
     color: rgb(32, 31, 31);
     font-weight: 500;
 }
+
+.Header .name {
+    text-decoration: none;
+    color: rgb(208, 205, 209);
+}
+
+.Header .logout {
+    text-decoration: none;
+    color:rgb(175, 44, 44);
+}
+
+.Header .sign-in {
+    font-size: larger;
+    text-decoration: none;
+    color: rgb(218, 216, 219);
+}
+
+.name:hover {
+    color: rgb(32, 31, 31);
+}
+
+.logout:hover {
+    color:rgb(208, 205, 209);
+}
+
+.sign-in:hover {
+    color:rgb(62, 182, 112);
+    
+}
+
+.Header .BiLogInCircle {
+    font-size: larger;
+}

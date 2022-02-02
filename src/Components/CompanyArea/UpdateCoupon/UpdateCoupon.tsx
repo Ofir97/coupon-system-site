@@ -4,9 +4,9 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { date, z } from "zod";
 import { Coupon } from "../../../Models/Coupon";
-import { ResponseDto } from "../../../Models/ResponseDto";
+import { ResponseDto } from "../../../Models/dto/ResponseDto";
 import globals from "../../../Services/Globals";
-import notify from "../../../Services/Notification";
+import notify, { ErrMsg } from "../../../Services/Notification";
 import GoMenu from "../../SharedArea/GoMenu/GoMenu";
 import "./UpdateCoupon.css";
 import { useEffect, useState } from "react";
@@ -14,16 +14,30 @@ import EmptyView from "../../SharedArea/EmptyView/EmptyView";
 import { couponsUpdatedAction } from "../../../Redux/CouponsAppState";
 import store from "../../../Redux/Store";
 import { Utils } from "../../../Services/Utils";
+import tokenAxios from "../../../Services/InterceptorAxios";
 
 function UpdateCoupon(): JSX.Element {
 
     const { id } = useParams();
     const navigate = useNavigate();
-
     const location = useLocation();
     const stateArr = location.state as Coupon[];
     const coupon = stateArr && stateArr[0];
     const [category, setCategory] = useState(coupon?.category);
+
+    useEffect(()=> {
+        if (!store.getState().authState?.user) {
+            notify.error(ErrMsg.PLS_LOGIN);
+            navigate('/login');
+            return;
+        }
+
+        if (store.getState().authState?.user?.clientType.toString() !== 'COMPANY') {
+            notify.error(ErrMsg.UNAUTHORIZED);
+            navigate('/');
+            return;
+        }
+    })
 
     const onSelectChange = (value: any) => {
         setCategory(value);
@@ -59,17 +73,23 @@ function UpdateCoupon(): JSX.Element {
     const sendToRemoteServer = (coupon: Coupon) => {
         coupon.id = +id;
 
-        axios.put<ResponseDto>(globals.urls.companyCoupons, coupon)
+        tokenAxios.put<ResponseDto>(globals.urls.companyCoupons, coupon)
             .then(response => {
                 if (response.data.success) {
                     notify.success(response.data.message);
                     store.dispatch(couponsUpdatedAction(coupon));
                     navigate('/company/coupons');
                 }
-                else notify.error(response.data.message);
             })
             .catch((err) => {
-                notify.error(err);
+                switch (err.response.status) {
+                    case 401:
+                        notify.error(ErrMsg.ILLEGAL_OPERATION);
+                        break;
+                    case 403:
+                        notify.error(err.response.data);
+                        break;
+                }
             })
     }
 
