@@ -42,12 +42,12 @@ function Header(): JSX.Element {
                     <Navbar.Brand as={Link} to="/"><img src={logo} /><h6 className="display-6">Coupon System</h6></Navbar.Brand>
                     <Navbar.Toggle />
                     <Navbar.Collapse className="justify-content-end">
-                        {user && <><Navbar.Text>Welcome back, </Navbar.Text>&#160;<Link to={user.clientType.toString().toLowerCase()} className="name">{user.name}</Link>
-                            <span>&#160;|&#160;</span><OverlayTrigger placement='bottom' overlay={(p) => (<Tooltip {...p}>log out</Tooltip>
+                        {user && <><Navbar.Text><span className="welcome-msg">Welcome back, </span></Navbar.Text>&#160;<Link to={user.clientType.toString().toLowerCase()} className="name">{user.name}</Link>
+                            <span id="pipe">&#160;|&#160;</span><OverlayTrigger placement='bottom' overlay={(p) => (<Tooltip {...p}>log out</Tooltip>
                             )}><Link to="/logout" className="logout"><FiLogOut /></Link></OverlayTrigger></>}
 
-                        {!user && <><Navbar.Text>Hello Guest,&#160;</Navbar.Text><OverlayTrigger placement='bottom' overlay={(p) => (<Tooltip {...p}>login</Tooltip>
-                            )}><Link to="/login" className="sign-in"><BiLogInCircle /></Link></OverlayTrigger></>}
+                        {!user && <><Navbar.Text><span className="welcome-msg">Hello Guest</span><span id="pipe">&#160;|&#160;</span></Navbar.Text><OverlayTrigger placement='bottom' overlay={(p) => (<Tooltip {...p}>login</Tooltip>
+                        )}><Link to="/login" className="sign-in"><BiLogInCircle /></Link></OverlayTrigger></>}
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

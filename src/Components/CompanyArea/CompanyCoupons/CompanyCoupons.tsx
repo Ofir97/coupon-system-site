@@ -3,7 +3,6 @@ import { Coupon } from "../../../Models/Coupon";
 import EmptyView from "../../SharedArea/EmptyView/EmptyView";
 import globals from "../../../Services/Globals";
 import "./CompanyCoupons.css";
-import axios from "axios";
 import { CouponsListModel } from "../../../Models/models-lists/CouponsList";
 import notify, { ErrMsg, SccMsg } from "../../../Services/Notification";
 import Avatar from "../../SharedArea/Avatar/Avatar";
@@ -14,15 +13,15 @@ import { Utils } from "../../../Services/Utils";
 import { ResponseDto } from "../../../Models/dto/ResponseDto";
 import ILTime from "../../SharedArea/ILTime/ILTime";
 import store from "../../../Redux/Store";
-import { couponsDeletedAction, couponsDownloadedAction } from "../../../Redux/CouponsAppState";
 import { Link, useNavigate } from "react-router-dom";
 import FilterSection from "../../UIArea/FilterSection/FilterSection";
 import tokenAxios from "../../../Services/InterceptorAxios";
+import { companyCouponsDeletedAction, companyCouponsDownloadedAction } from "../../../Redux/CompanyCouponsAppState";
 
 function CompanyCoupons(): JSX.Element {
 
     const navigate = useNavigate();
-    const [coupons, setCoupons] = useState<Coupon[]>(store.getState().couponsState.coupons);
+    const [coupons, setCoupons] = useState<Coupon[]>(store.getState().companyCouponsState.companyCoupons);
 
     const getCouponsFromFilter = (coupons: Coupon[]) => {
         coupons?.length > 0 ? setCoupons(coupons) : notify.error('no coupons from this filter');
@@ -48,7 +47,7 @@ function CompanyCoupons(): JSX.Element {
 
         coupons.length === 0 && getCoupons()
             .then((response) => {
-                store.dispatch(couponsDownloadedAction(response.data.coupons));
+                store.dispatch(companyCouponsDownloadedAction(response.data.coupons));
                 setCoupons(response.data.coupons);
                 response.data.coupons.length > 0 && notify.success(SccMsg.ALL_COMPANY_COUPONS);
             })
@@ -63,8 +62,8 @@ function CompanyCoupons(): JSX.Element {
             .then(response => {
                 if (response.data.success) {
                     notify.success(response.data.message);
-                    store.dispatch(couponsDeletedAction(id));
-                    setCoupons(store.getState().couponsState.coupons);
+                    store.dispatch(companyCouponsDeletedAction(id));
+                    setCoupons(store.getState().companyCouponsState.companyCoupons);
                 }
                 else notify.error(response.data.message);
             })

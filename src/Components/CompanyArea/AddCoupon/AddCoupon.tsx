@@ -9,7 +9,7 @@ import notify, { ErrMsg, SccMsg } from "../../../Services/Notification";
 import GoMenu from "../../SharedArea/GoMenu/GoMenu";
 import { ResponseDto } from "../../../Models/dto/ResponseDto";
 import { useNavigate } from "react-router-dom";
-import { couponsAddedAction } from "../../../Redux/CouponsAppState";
+import { companyCouponsAddedAction } from "../../../Redux/CompanyCouponsAppState";
 import store from "../../../Redux/Store";
 import tokenAxios from "../../../Services/InterceptorAxios";
 import { useEffect } from "react";
@@ -66,7 +66,7 @@ function AddCoupon(): JSX.Element {
                 if (response.data.success) {
                     notify.success(SccMsg.ADDED_COUPON);
                     coupon.id = +response.data.message;
-                    store.dispatch(couponsAddedAction(coupon));
+                    store.dispatch(companyCouponsAddedAction(coupon));
                     navigate('/company/coupons');
                 }
             })

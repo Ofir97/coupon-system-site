@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { Coupon } from "../../../Models/Coupon";
 import { CouponsListModel } from "../../../Models/models-lists/CouponsList";
+import { logoutAction } from "../../../Redux/AuthAppState";
 import { customerCouponsDownloadedAction } from "../../../Redux/CustomerCouponsAppState";
 import store from "../../../Redux/Store";
 import globals from "../../../Services/Globals";
@@ -34,7 +35,13 @@ function CustomerCoupons(): JSX.Element {
                 notify.success(SccMsg.ALL_CUSTOMER_COUPONS);
             })
             .catch(err => {
-                notify.error(err);
+                if (err.response.status === 401) { // if token has expired - logout
+                    store.dispatch(logoutAction());
+                    notify.error(ErrMsg.PLS_LOGIN);
+                    navigate('/login');
+                    return;
+                }
+                notify.error(err)
             })
     }
 
@@ -52,7 +59,7 @@ function CustomerCoupons(): JSX.Element {
         }
 
         coupons.length === 0 && getCoupons();
-
+        
     }, [])
 
     return (

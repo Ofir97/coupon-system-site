@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { logoutAction } from "../../../Redux/AuthAppState";
+import { companyCouponsDownloadedAction } from "../../../Redux/CompanyCouponsAppState";
 import { couponsDownloadedAction } from "../../../Redux/CouponsAppState";
 import { customerCouponsDownloadedAction } from "../../../Redux/CustomerCouponsAppState";
 
@@ -14,6 +15,7 @@ function Logout(): JSX.Element {
     useEffect(() => {
         store.dispatch(couponsDownloadedAction([]))
         store.dispatch(customerCouponsDownloadedAction([]))
+        store.dispatch(companyCouponsDownloadedAction([]))
         store.dispatch(logoutAction());
         navigate('/');
     })

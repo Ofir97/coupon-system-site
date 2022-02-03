@@ -11,10 +11,10 @@ import GoMenu from "../../SharedArea/GoMenu/GoMenu";
 import "./UpdateCoupon.css";
 import { useEffect, useState } from "react";
 import EmptyView from "../../SharedArea/EmptyView/EmptyView";
-import { couponsUpdatedAction } from "../../../Redux/CouponsAppState";
 import store from "../../../Redux/Store";
 import { Utils } from "../../../Services/Utils";
 import tokenAxios from "../../../Services/InterceptorAxios";
+import { companyCouponsUpdatedAction } from "../../../Redux/CompanyCouponsAppState";
 
 function UpdateCoupon(): JSX.Element {
 
@@ -77,7 +77,7 @@ function UpdateCoupon(): JSX.Element {
             .then(response => {
                 if (response.data.success) {
                     notify.success(response.data.message);
-                    store.dispatch(couponsUpdatedAction(coupon));
+                    store.dispatch(companyCouponsUpdatedAction(coupon));
                     navigate('/company/coupons');
                 }
             })

@@ -1,11 +1,8 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Nav, Row, Tab } from "react-bootstrap";
-import { CouponsListModel } from "../../../Models/models-lists/CouponsList";
+import { Coupon } from "../../../Models/Coupon";
 import store from "../../../Redux/Store";
-import globals from "../../../Services/Globals";
-import tokenAxios from "../../../Services/InterceptorAxios";
-import notify from "../../../Services/Notification";
 import "./FilterSection.css";
 
 interface FilterSectionProps {
@@ -14,55 +11,40 @@ interface FilterSectionProps {
 }
 
 function FilterSection(props: FilterSectionProps): JSX.Element {
-
+    const [coupons, setCoupons] = useState<Coupon[]>([]);
     const [category, setCategory] = useState('');
     const [price, setPrice] = useState(0);
 
-    const getURL = () => {
-        if (props.model === 'company')
-            return globals.urls.companyCoupons;
-        if (props.model === 'customer')
-            return globals.urls.customerCoupons;
-        if (props.model === 'coupon')
-            return globals.urls.coupons;
-
-        return '';
-    }
+    useEffect(() => {
+        switch (props.model) {
+            case 'company':
+                setCoupons(store.getState().companyCouponsState.companyCoupons);
+                break;
+            case 'customer':
+                setCoupons(store.getState().customerCouponsState.customerCoupons);
+                break;
+            case 'coupon':
+                setCoupons(store.getState().couponsState.coupons);
+                break;
+        }
+    }, [])
 
     const allCoupons = () => {
-        if (props.model === 'customer') {
-            props.filterCb(store.getState().customerCouponsState.customerCoupons);
-        }
-        else { 
-            props.filterCb(store.getState().couponsState.coupons);
-        }
+        props.filterCb(coupons);
     }
 
     const filterByPrice = async (e: any) => {
         e.preventDefault();
-        const url = getURL();
-
-        tokenAxios.get<CouponsListModel>(url + '/byMaxPrice?maxPrice=' + price)
-            .then((response) => {
-                props.filterCb(response.data.coupons);
-            })
-            .catch((err) => {
-                notify.error(err);
-            })
-
+        props.filterCb(coupons.filter(coupon => {
+            return coupon.price <= price;
+        }))
     }
 
     const filterByCategory = async (e: any) => {
         e.preventDefault();
-        const url = getURL();
-
-        tokenAxios.get<CouponsListModel>(url + '/byCategory?category=' + category)
-            .then((response) => {
-                props.filterCb(response.data.coupons);
-            })
-            .catch((err) => {
-                notify.error(err);
-            })
+        props.filterCb(coupons.filter(coupon => {
+            return coupon.category.toString() === category;
+        }))
     }
 
 
@@ -121,8 +103,7 @@ function FilterSection(props: FilterSectionProps): JSX.Element {
                     </Col>
                 </Row>
             </Tab.Container>
-
-
+            
         </div>
     );
 }
