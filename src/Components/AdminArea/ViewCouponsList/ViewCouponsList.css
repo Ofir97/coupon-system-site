@@ -1,0 +1,40 @@
+.ViewCouponsList {
+	
+}
+
+.ViewCouponsList h2 {
+    text-transform: capitalize;
+}
+
+.ViewCouponsList ul li span {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #701c85;
+}
+
+.ViewCouponsList h4 {
+    color: rgb(184, 29, 151);
+}
+
+.ViewCouponsList h5 {
+    font-style: italic;
+    font-weight: 500;
+    font-family: 'Shadows Into Light Two', cursive;
+    color: rgb(132, 92, 224);
+}
+
+.ViewCouponsList p {
+    font-family: cursive;
+}
+
+.ViewCouponsList .card {
+    box-shadow: 5px 10px 18px #a686a8;
+    margin-bottom: 2.5%;
+}
+
+#date-span {
+    color: black;
+}
+
+.ViewCouponsList .btn {
+    margin-bottom: 1%;
+}

@@ -1,0 +1,28 @@
+.CustomLink {
+	padding-bottom: 20%;
+	font-family: 'Baloo 2', sans-serif;
+	letter-spacing: 1.5px;
+}
+
+.LinkStyle {
+	padding-bottom: 4px;
+	border-bottom: 3px solid #67337c;
+	text-decoration: none;
+	color: #eceaec;
+	font-weight: bold;
+}
+
+.LinkStyle:hover {
+	color: #eceaec;
+}
+
+.NoStyle:hover {
+	color: white;
+	padding-bottom: 3px;
+	border-bottom: 2px solid #674974;
+}
+
+.NoStyle {
+	color: rgb(219, 219, 221);
+	text-decoration: none;
+}

@@ -1,0 +1,40 @@
+.CompanyCoupons {
+	
+}
+
+.CompanyCoupons ul li span {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #701c85;
+}
+
+.CompanyCoupons h4 {
+    color: rgb(184, 29, 151);
+}
+
+.CompanyCoupons h5 {
+    font-style: italic;
+    font-weight: 500;
+    font-family: 'Shadows Into Light Two', cursive;
+    color: rgb(132, 92, 224);
+}
+
+.CompanyCoupons p {
+    font-family: cursive;
+}
+
+.CompanyCoupons .card {
+    box-shadow: 5px 10px 18px #a592a7;
+    margin-bottom: 2.5%;
+}
+
+#date-span {
+    color: black;
+}
+
+.CompanyCoupons .btn {
+    margin-bottom: 1%;
+}
+
+.CompanyCoupons .btn-success {
+    margin-bottom: 2%;
+}

@@ -1,0 +1,53 @@
+.AddCoupon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    margin-top: 1%;
+}
+
+.AddCoupon h4 {
+    color: rgb(204, 78, 187);
+    margin-bottom: 4%;
+}
+
+.AddCoupon .Form {
+    width: 30vw;
+    margin-top: 2%;
+    margin-bottom: 10%;
+}
+
+.form-group {
+    margin-bottom: 1.5%;
+}
+
+.fa {
+    font-size: 22px;
+}
+
+input {
+    height: 10%;
+}
+
+.AddCoupon textarea {
+    font-family: cursive;
+    font-style: italic;
+}
+
+.AddCoupon label {
+    color: rgb(61, 87, 204);
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+    font-size: larger;
+    text-shadow: 0 1px 0 rgba(173, 171, 171, 0.8);
+    margin-bottom: 0.5%;
+}
+
+.AddCoupon .btn-container>button {
+    margin-top: 2%;
+    width: 40%;
+}
+
+.AddCoupon .btn-container {
+    text-align: center;
+}
