@@ -17,6 +17,7 @@ import { Link, useNavigate } from "react-router-dom";
 import FilterSection from "../../UIArea/FilterSection/FilterSection";
 import tokenAxios from "../../../Services/InterceptorAxios";
 import { companyCouponsDeletedAction, companyCouponsDownloadedAction } from "../../../Redux/CompanyCouponsAppState";
+import { RiCoupon3Line } from "react-icons/ri";
 
 function CompanyCoupons(): JSX.Element {
 
@@ -65,19 +66,26 @@ function CompanyCoupons(): JSX.Element {
                     store.dispatch(companyCouponsDeletedAction(id));
                     setCoupons(store.getState().companyCouponsState.companyCoupons);
                 }
-                else notify.error(response.data.message);
             })
             .catch(err => {
-                notify.error(err);
+                switch (err.response.status) {
+                    case 401: // unauthorized
+                        notify.error(ErrMsg.UNAUTHORIZED_OPERATION);
+                        break;
+                    case 403: // forbidden
+                        notify.error(err.response.data);
+                        break;
+                }
             })
-
     }
 
     return (
         <div className="CompanyCoupons">
             {coupons?.length > 0 && <><h2 className="display-5">Company's Coupons</h2>
                 <FilterSection filterCb={getCouponsFromFilter} model="company" />
-                <Link to="/company/add-coupon" className="btn btn-success">Add a new Coupon</Link>
+                <Link to="/company/add-coupon" className="btn btn-success">
+                    <span className="icon"><RiCoupon3Line /></span> Add Coupon
+                </Link>
                 <div className="row">
                     {coupons.map(coupon => {
                         return [
@@ -108,7 +116,7 @@ function CompanyCoupons(): JSX.Element {
 
             {coupons?.length === 0 && <><EmptyView message='Ooops.. No coupons to display!' />
                 <GoMenu to='/company' />
-                <Link to="/company/add-coupon" className="btn btn-success">Add a new Coupon</Link></>}
+                <Link to="/company/add-coupon" className="btn btn-success">Add Coupon</Link></>}
 
 
         </div>

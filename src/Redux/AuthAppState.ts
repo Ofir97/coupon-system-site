@@ -35,7 +35,7 @@ export function authReducer(currentState: AuthAppState = new AuthAppState(),acti
     switch(action.type){
         case AuthActionType.Login: // With payload
             newState.user = action.payload;
-            localStorage.setItem("user", JSON.stringify(newState.user)); // Saving in the session storage 
+            localStorage.setItem("user", JSON.stringify(newState.user)); // Saving in the session storage
             break;
         case AuthActionType.Logout: // No payload
             newState.user = null;

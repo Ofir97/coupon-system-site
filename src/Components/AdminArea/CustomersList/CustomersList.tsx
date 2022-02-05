@@ -3,7 +3,6 @@ import { Customer } from "../../../Models/Customer";
 import { CustomersListModel } from "../../../Models/models-lists/CustomersList";
 import globals from "../../../Services/Globals";
 import "./CustomersList.css";
-import axios from "axios";
 import notify, { ErrMsg, SccMsg } from "../../../Services/Notification";
 import EmptyView from "../../SharedArea/EmptyView/EmptyView";
 import GoMenu from "../../SharedArea/GoMenu/GoMenu";
@@ -23,7 +22,6 @@ import { logoutAction } from "../../../Redux/AuthAppState";
 function CustomersList(): JSX.Element {
 
     const navigate = useNavigate();
-
     const [customers, setCustomers] = useState<Customer[]>(store.getState().customersState.customers);
 
     const getCustomers = async () => {
@@ -72,13 +70,17 @@ function CustomersList(): JSX.Element {
                     store.dispatch(customersDeletedAction(id));
                     setCustomers(store.getState().customersState.customers);
                 }
-                else notify.error(response.data.message);
             })
             .catch(err => {
-                notify.error(err);
+                switch (err.response.status) {
+                    case 401: // unauthorized
+                        notify.error(ErrMsg.UNAUTHORIZED_OPERATION);
+                        break;
+                    case 403: // forbidden
+                        notify.error(err.response.data);
+                        break;
+                }
             })
-
-        navigate('/admin/customer');
     }
 
     return (

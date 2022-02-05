@@ -1,0 +1,30 @@
+.Weather {
+	
+}
+
+.Weather .weather-img {
+   width: 150px;
+   height: 100px;
+   margin: 5% 0;
+}
+
+.Weather .card-header {
+   color: rgb(161, 35, 108);
+}
+
+.Weather .card-desc {
+   color: rgb(40, 40, 41);
+}
+
+.Weather .card-temp {
+   font-size: xx-large;
+   color:rgb(201, 58, 82);
+}
+
+.Weather .card-details {
+   color: rgb(40, 40, 41);
+}
+
+.Weather .card {
+   margin-bottom: 2%;
+}

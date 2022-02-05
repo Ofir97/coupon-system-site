@@ -15,7 +15,7 @@ export enum SccMsg {
 export enum ErrMsg {
     PLS_LOGIN = 'please login to the site',
     UNAUTHORIZED = 'access denied',
-    ILLEGAL_OPERATION = "operation is not allowed"
+    UNAUTHORIZED_OPERATION = "operation is not allowed"
 }
 class Notify {
 

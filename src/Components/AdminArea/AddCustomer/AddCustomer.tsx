@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Customer } from "../../../Models/Customer";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import globals from "../../../Services/Globals";
 import notify, { ErrMsg, SccMsg } from "../../../Services/Notification";
 import { customersAddedAction } from "../../../Redux/CustomersAppState";
@@ -59,10 +58,10 @@ function AddCustomer(): JSX.Element {
             })
             .catch((err) => {
                 switch (err.response.status) {
-                    case 401:
-                        notify.error(ErrMsg.ILLEGAL_OPERATION);
+                    case 401: // unauthorized
+                        notify.error(ErrMsg.UNAUTHORIZED_OPERATION);
                         break;
-                    case 403:
+                    case 403: // forbidden
                         notify.error(err.response.data);
                         break;
                 }

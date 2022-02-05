@@ -31,6 +31,8 @@ function Home(): JSX.Element {
         <div className="Home">
             <h2 className="display-4">Coupon System</h2>
 
+            
+
             {coupons?.length > 0 &&
                 <Carousel interval={3000} variant="dark">
                     {coupons.map(coupon => (

@@ -6,7 +6,7 @@ import notify, { ErrMsg } from "../../../Services/Notification";
 import { Utils } from "../../../Services/Utils";
 import Avatar from "../../SharedArea/Avatar/Avatar";
 import EmptyView from "../../SharedArea/EmptyView/EmptyView";
-import GoMenu from "../../SharedArea/GoMenu/GoMenu";
+import GoBack from "../../SharedArea/GoBack/GoBack";
 import ILTime from "../../SharedArea/ILTime/ILTime";
 import "./ViewCouponsList.css";
 
@@ -62,7 +62,7 @@ function ViewCouponsList(): JSX.Element {
             }
 
             {(!coupons || coupons?.length === 0) && <EmptyView message='Ooops.. No coupons to display!' />}
-            <GoMenu to={'/admin/' + model} />
+            <GoBack to={'/admin/' + model} />
         </div>
     );
 }

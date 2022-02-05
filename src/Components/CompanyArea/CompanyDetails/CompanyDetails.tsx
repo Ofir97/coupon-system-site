@@ -1,6 +1,5 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Company } from "../../../Models/Company";
 import store from "../../../Redux/Store";
 import globals from "../../../Services/Globals";

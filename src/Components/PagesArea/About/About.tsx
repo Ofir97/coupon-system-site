@@ -12,7 +12,6 @@ function About(): JSX.Element {
             <div className="card">
                 <h5 className="card-header"><span className="question-logo"><BsQuestionCircleFill /></span> WHO WE ARE</h5>
                 <div className="card-body">
-                    {/* <h5 className="card-title">Special title treatment</h5> */}
                     <p className="card-text">Coupon System is designed to promote the selling of coupons by companies.<br />
                         Customers that are registered to the system are able to purchase coupons. <br />
                         All coupons in the system are divided into categories to better suit your personal needs! <br />
@@ -22,7 +21,6 @@ function About(): JSX.Element {
 
                 <h5 className="card-header"><span className="technology-logo"><HiOutlineDesktopComputer /></span> THE TECHNOLOGIES</h5>
                 <div className="card-body">
-                    {/* <h5 className="card-title">Special title treatment</h5> */}
                     <p className="card-text">Coupon System has been created with React library for a great UI experience supporting SPA! <br />
                         As you might have noticed - there is only one single page in the whole application, so moving between pages is easy, quick and super convenient!<br />
                         The server side has been created with Spring Boot framework.

@@ -78,7 +78,7 @@ function FilterSection(props: FilterSectionProps): JSX.Element {
                         <Tab.Content>
                             <Tab.Pane eventKey="category">
                                 <form onSubmit={filterByCategory} className="filter-form">
-                                    <select defaultValue={''} className="form-select" onChange={handleCategoryChange} required>
+                                    <select defaultValue={''} className="form-select category-input" onChange={handleCategoryChange} required>
                                         <option value="" disabled>Choose Category</option>
                                         <option value="FOOD">Food</option>
                                         <option value="ELECTRICITY">Electricity</option>
@@ -94,7 +94,7 @@ function FilterSection(props: FilterSectionProps): JSX.Element {
                             </Tab.Pane>
                             <Tab.Pane eventKey="price">
                                 <form onSubmit={filterByPrice} className="filter-form">
-                                    <input className="form-control" placeholder="enter max price" type="number" min="0" max={100000} step="any" required onChange={handlePriceChange} />
+                                    <input className="form-control price-input" placeholder="enter max price" type="number" min="0" max={100000} step="any" required onChange={handlePriceChange} />
                                     <Button name="submit" variant="outline-primary" type="submit">Filter</Button>
                                 </form>
 

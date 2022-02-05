@@ -1,3 +1,21 @@
 .ContactUs {
 	
 }
+
+.ContactUs .card-header {
+    color: rgb(51, 68, 165);
+}
+
+.ContactUs .card {
+    width: 60%;
+    margin: auto;
+}
+
+.ContactUs .logo {
+    position: relative;
+    bottom: 2px;
+}
+
+.ContactUs .card-text {
+    font-family: cursive;
+}

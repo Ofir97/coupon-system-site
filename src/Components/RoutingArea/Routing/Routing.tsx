@@ -22,6 +22,7 @@ import ContactUs from "../../PagesArea/ContactUs/ContactUs";
 import Home from "../../PagesArea/Home/Home";
 import Login from "../../PagesArea/Login/Login";
 import Logout from "../../PagesArea/Logout/Logout";
+import Weather from "../../PagesArea/Weather/Weather";
 import Page404 from "../../SharedArea/Page404/Page404";
 
 import "./Routing.css";
@@ -36,6 +37,7 @@ function Routing(): JSX.Element {
                 <Route path="logout" element={<Logout />} />
                 <Route path="contact-us" element={<ContactUs />} />
                 <Route path="*" element={<Page404 />} />
+                <Route path="weather" element={<Weather/>}/>
 
                 {/* Admin Area */}
                 <Route path="admin" element={<AdminPage />} />

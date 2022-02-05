@@ -1,9 +1,9 @@
 .EmptyView {
 	color: rgb(113, 115, 124);
-    font-size: large;
-    font-family: 'Merriweather Sans', sans-serif;
+    font-size: large; 
+    font-family: 'Merriweather Sans', sans-serif; 
 }
 
 .EmptyView h2 {
-    color: #9B0000;
+    color: rgb(177, 35, 90);
 }

@@ -1,10 +1,14 @@
+import { Button } from "react-bootstrap";
+import { AiOutlineHome } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import "./GoHome.css";
 
 function GoHome(): JSX.Element {
     return (
         <div className="GoHome">
-			<Link to="/"><button type="button" className="btn btn-secondary btn-md back-btn">Back to Home</button></Link>
+			<Link to="/"><Button type="button" variant="outline-secondary" className="btn-md back-btn">
+            <span className="icon"><AiOutlineHome/></span> Go Home</Button>
+            </Link>
         </div>
     );
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Badge } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import store from "../../../Redux/Store";
 import notify, { ErrMsg } from "../../../Services/Notification";
@@ -8,6 +9,8 @@ function AdminPage(): JSX.Element {
 
     const navigate = useNavigate();
     const [time, setTime] = useState(new Date());
+    const [numOfCompanies, setNumOfCompanies] = useState(store.getState().companiesState.companies?.length);
+    const [numOfCustomers, setNumOfCustomers] = useState(store.getState().customersState.customers?.length);
 
     useEffect(() => {
         if (!store.getState().authState?.user) {
@@ -42,21 +45,39 @@ function AdminPage(): JSX.Element {
         <div className="AdminPage">
             <h2 className="display-6">{displayGreetings(time)} Admin!</h2>
             <div className="row">
-                <div className="col-sm-5">
+                <div className="col-sm-4">
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">View Companies</h5>
+                            <h5>
+                                {numOfCompanies > 0 &&
+                                    <Badge pill bg="secondary" text="light">
+                                        {numOfCompanies} companies
+                                    </Badge>
+                                }
+                            </h5>
+                            <br />
+
                             <p className="card-text">Show all companies in coupon system.</p>
-                            <Link to="company" className="btn btn-primary">Show Companies</Link>
+                            <Link to="company" className="btn btn-outline-secondary">Show Companies</Link>
                         </div>
                     </div>
                 </div>
-                <div className="col-sm-5">
+                <div className="col-sm-4">
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">View Customers</h5>
+                            <h5>
+                                {numOfCustomers > 0 &&
+                                    <Badge pill bg="secondary" text="light">
+                                        {numOfCustomers} customers
+                                    </Badge>
+                                }
+                            </h5>
+                            <br />
+
                             <p className="card-text">Show all customers in coupon system.</p>
-                            <Link to="customer" className="btn btn-primary">Show Customers</Link>
+                            <Link to="customer" className="btn btn-outline-secondary">Show Customers</Link>
                         </div>
                     </div>
                 </div>

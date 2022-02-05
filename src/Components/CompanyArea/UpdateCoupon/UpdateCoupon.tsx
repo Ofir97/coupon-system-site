@@ -1,8 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { date, z } from "zod";
+import {  z } from "zod";
 import { Coupon } from "../../../Models/Coupon";
 import { ResponseDto } from "../../../Models/dto/ResponseDto";
 import globals from "../../../Services/Globals";
@@ -25,7 +24,7 @@ function UpdateCoupon(): JSX.Element {
     const coupon = stateArr && stateArr[0];
     const [category, setCategory] = useState(coupon?.category);
 
-    useEffect(()=> {
+    useEffect(() => {
         if (!store.getState().authState?.user) {
             notify.error(ErrMsg.PLS_LOGIN);
             navigate('/login');
@@ -83,10 +82,10 @@ function UpdateCoupon(): JSX.Element {
             })
             .catch((err) => {
                 switch (err.response.status) {
-                    case 401:
-                        notify.error(ErrMsg.ILLEGAL_OPERATION);
+                    case 401: // unauthorized
+                        notify.error(ErrMsg.UNAUTHORIZED_OPERATION);
                         break;
-                    case 403:
+                    case 403: // forbidden
                         notify.error(err.response.data);
                         break;
                 }

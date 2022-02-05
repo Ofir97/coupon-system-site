@@ -24,11 +24,15 @@
 }
 
 .Header .sign-in {
-    font-size: x-large;
+    font-size: 130%;
     position: relative;
-    bottom: 2px;
+    bottom: 1.5px;
     text-decoration: none;
     color: rgb(218, 216, 219);
+}
+
+.Header .clock {
+    cursor: default;
 }
 
 .name:hover {
@@ -40,7 +44,7 @@
 }
 
 .sign-in:hover {
-    color:rgb(62, 182, 112);
+    color:rgb(62, 206, 62);
 }
 
 .Header .BiLogInCircle {
@@ -53,5 +57,6 @@
 }
 
 .Header .welcome-msg {
-    color: rgb(155, 23, 74);
+    color: rgb(177, 35, 90);
+    cursor: default;
 }

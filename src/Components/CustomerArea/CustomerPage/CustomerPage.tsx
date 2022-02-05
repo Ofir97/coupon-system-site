@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Badge } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import store from "../../../Redux/Store";
 import notify, { ErrMsg } from "../../../Services/Notification";
@@ -8,6 +9,8 @@ function CustomerPage(): JSX.Element {
 
     const navigate = useNavigate();
     const [time, setTime] = useState(new Date());
+    const [numOfCustomerCoupons, setNumOfCustomerCoupons] = useState(store.getState().customerCouponsState.customerCoupons?.length);
+    const [numOfCoupons, setNumOfCoupons] = useState(store.getState().couponsState.coupons?.length)
 
     useEffect(() => {
         if (!store.getState().authState?.user) {
@@ -46,8 +49,12 @@ function CustomerPage(): JSX.Element {
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">View all Coupons</h5>
+                            <h5>{numOfCoupons > 0 && <Badge pill bg="secondary" text="light">
+                                {numOfCoupons} coupons
+                            </Badge>}
+                            </h5>
                             <p className="card-text">Show all coupons of the system.</p>
-                            <Link to="coupons" className="btn btn-primary">Show Coupons</Link>
+                            <Link to="coupons" className="btn btn-outline-secondary">Show Coupons</Link>
                         </div>
                     </div>
                 </div>
@@ -56,8 +63,12 @@ function CustomerPage(): JSX.Element {
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">View your coupons</h5>
+                            <h5>{numOfCustomerCoupons > 0 && <Badge pill bg="secondary" text="light">
+                                {numOfCustomerCoupons} coupons
+                            </Badge>}
+                            </h5>
                             <p className="card-text">Show your purchased coupons.</p>
-                            <Link to="purchased-coupons" className="btn btn-primary">Show Purchased Coupons</Link>
+                            <Link to="purchased-coupons" className="btn btn-outline-secondary">Show Purchased Coupons</Link>
                         </div>
                     </div>
                 </div>
@@ -67,7 +78,7 @@ function CustomerPage(): JSX.Element {
                         <div className="card-body">
                             <h5 className="card-title">See your Profile</h5>
                             <p className="card-text">View your personal info.</p>
-                            <Link to="customer-details" className="btn btn-primary">Show Details</Link>
+                            <Link to="customer-details" className="btn btn-outline-secondary">Show Details</Link>
                         </div>
                     </div>
                 </div>

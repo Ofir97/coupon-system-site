@@ -1,6 +1,6 @@
 import "./Header.css";
 import { Container, Navbar, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import logo from "../../../Assets/images/coupon-logo.png";
 import store from "../../../Redux/Store";
@@ -9,10 +9,15 @@ import { BiLogInCircle } from "react-icons/bi";
 
 function Header(): JSX.Element {
 
+    const navigate = useNavigate();
     const [time, setTime] = useState(new Date());
     const [user, setUser] = useState(store.getState().authState.user);
 
     useEffect(() => {
+        if (Date.parse(new Date().toString()) > Date.parse(user?.tokenExpirationTime?.toString())) {
+            navigate("/logout")
+        }
+
         const unsubscribe = store.subscribe(() => {
             setUser(store.getState().authState.user);
         });

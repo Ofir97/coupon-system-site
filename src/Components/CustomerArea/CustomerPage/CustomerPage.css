@@ -24,3 +24,11 @@
     align-items: center;
     justify-content: center;
 }
+
+.CustomerPage p {
+    cursor: default;
+}
+
+.CustomerPage h5 {
+    cursor: default;
+}

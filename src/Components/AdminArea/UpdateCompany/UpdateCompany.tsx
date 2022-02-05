@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
@@ -9,6 +8,7 @@ import { ResponseDto } from "../../../Models/dto/ResponseDto";
 import { companiesUpdatedAction } from "../../../Redux/CompaniesAppState";
 import store from "../../../Redux/Store";
 import globals from "../../../Services/Globals";
+import tokenAxios from "../../../Services/InterceptorAxios";
 import notify, { ErrMsg } from "../../../Services/Notification";
 import EmptyView from "../../SharedArea/EmptyView/EmptyView";
 import GoMenu from "../../SharedArea/GoMenu/GoMenu";
@@ -29,14 +29,14 @@ function UpdateCompany(): JSX.Element {
             navigate('/login');
             return;
         }
-    
+
         if (store.getState().authState?.user?.clientType.toString() !== 'ADMIN') {
             notify.error(ErrMsg.UNAUTHORIZED);
             navigate('/');
             return;
         }
     })
-    
+
     const schema = z.object({
         name: z.string(),
         email: z.string().nonempty("Please provide a valid email.").email('Invalid email.'),
@@ -54,18 +54,24 @@ function UpdateCompany(): JSX.Element {
 
     const sendToRemoteServer = async (company: Company) => {
         company.id = +id;
-        axios.put<ResponseDto>(globals.urls.companies, company)
+        tokenAxios.put<ResponseDto>(globals.urls.companies, company)
             .then(response => {
                 if (response.data.success) {
+                    console.log('good')
                     notify.success(response.data.message);
                     store.dispatch(companiesUpdatedAction(company));
                     navigate('/admin/company');
                 }
-                else notify.error(response.data.message);
-
             })
             .catch((err) => {
-                notify.error(err);
+                switch (err.response.status) {
+                    case 401: // unauthorized
+                        notify.error(ErrMsg.UNAUTHORIZED_OPERATION);
+                        break;
+                    case 403: // forbidden
+                        notify.error(err.response.data);
+                        break;
+                }
             })
     }
 

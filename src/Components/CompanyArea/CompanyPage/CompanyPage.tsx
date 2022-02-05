@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import { Badge } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { ClientType } from "../../../Models/ClientType";
 import store from "../../../Redux/Store";
 import notify, { ErrMsg } from "../../../Services/Notification";
 import "./CompanyPage.css";
@@ -9,6 +9,7 @@ function CompanyPage(): JSX.Element {
 
     const navigate = useNavigate();
     const [time, setTime] = useState(new Date());
+    const [numOfCompanyCoupons, setNumOfCompanyCoupons] = useState(store.getState().companyCouponsState.companyCoupons?.length)
 
     useEffect(() => {
         if (!store.getState().authState?.user) {
@@ -22,7 +23,7 @@ function CompanyPage(): JSX.Element {
             navigate('/');
             return;
         }
-        
+
         const timerId = setInterval(() => {
             setTime(new Date())
         }, 1000)
@@ -47,8 +48,12 @@ function CompanyPage(): JSX.Element {
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">View Coupons</h5>
+                            <h5>{numOfCompanyCoupons > 0 && <Badge pill bg="secondary" text="light">
+                                {numOfCompanyCoupons} coupons
+                            </Badge>}
+                            </h5>
                             <p className="card-text">Show all company's coupons.</p>
-                            <Link to="coupons" className="btn btn-primary">Show Coupons</Link>
+                            <Link to="coupons" className="btn btn-outline-secondary">Show Coupons</Link>
                         </div>
                     </div>
                 </div>
@@ -57,7 +62,7 @@ function CompanyPage(): JSX.Element {
                         <div className="card-body">
                             <h5 className="card-title">See your Profile</h5>
                             <p className="card-text">View your personal info.</p>
-                            <Link to="company-details" className="btn btn-primary">Show Details</Link>
+                            <Link to="company-details" className="btn btn-outline-secondary">Show Details</Link>
                         </div>
                     </div>
                 </div>
@@ -66,7 +71,7 @@ function CompanyPage(): JSX.Element {
                         <div className="card-body">
                             <h5 className="card-title">Add Coupon</h5>
                             <p className="card-text">Add a new Coupon.</p>
-                            <Link to="add-coupon" className="btn btn-primary">Add Coupon</Link>
+                            <Link to="add-coupon" className="btn btn-outline-secondary">Add Coupon</Link>
                         </div>
                     </div>
                 </div>

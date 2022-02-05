@@ -27,7 +27,7 @@ function Login(): JSX.Element {
 
     const {
         register, // takes hold of all input fields
-        handleSubmit, //collects all field values {...register} and turns into LoginModel object
+        handleSubmit, //collects all field values {...register} and turns into CredentialsModel object
         formState: { errors, isDirty, isValid },
     } = useForm<CredentialsModel>({
         mode: "all",
@@ -66,7 +66,7 @@ function Login(): JSX.Element {
                 }   
             })
             .catch((err) => {
-                err.response.status === 401 ? notify.error('Login failed: bad credentials') : notify.error(err);
+                err.response.status === 401 ? notify.error(err.response.data) : notify.error(err);
             })
     }
 

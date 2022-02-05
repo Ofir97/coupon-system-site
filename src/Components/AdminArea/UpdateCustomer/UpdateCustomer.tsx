@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
@@ -63,11 +62,17 @@ function UpdateCustomer(): JSX.Element {
                     store.dispatch(customersUpdatedAction(customer)); 
                     navigate('/admin/customer');
                 }
-                else notify.error(response.data.message);
 
             })
             .catch((err) => {
-                notify.error(err);
+                switch (err.response.status) {
+                    case 401: // unauthorized
+                        notify.error(ErrMsg.UNAUTHORIZED_OPERATION);
+                        break;
+                    case 403: // forbidden
+                        notify.error(err.response.data);
+                        break;
+                }
             })
     }
 

@@ -17,7 +17,6 @@ import TotalCompanies from "../TotalCompanies/TotalCompanies";
 import { RiCoupon3Line } from "react-icons/ri";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import tokenAxios from "../../../Services/InterceptorAxios";
-import { logoutAction } from "../../../Redux/AuthAppState";
 
 function CompaniesList(): JSX.Element {
 
@@ -63,17 +62,16 @@ function CompaniesList(): JSX.Element {
                     store.dispatch(companiesDeletedAction(id));
                     setCompanies(store.getState().companiesState.companies);
                 }
-                else notify.error(response.data.message);
             })
             .catch(err => {
-                if (err.response.status === 401) { // if token has expired - logout
-                    store.dispatch(logoutAction());
-                    notify.error(ErrMsg.PLS_LOGIN);
-                    navigate('/login');
-                    return;
+                switch (err.response.status) {
+                    case 401: // unauthorized
+                        notify.error(ErrMsg.UNAUTHORIZED_OPERATION);
+                        break;
+                    case 403: // forbidden
+                        notify.error(err.response.data);
+                        break;
                 }
-
-                notify.error(err);
             })
 
     }

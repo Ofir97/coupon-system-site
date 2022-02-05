@@ -1,10 +1,8 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { Coupon } from "../../../Models/Coupon";
 import { CouponsListModel } from "../../../Models/models-lists/CouponsList";
-import { logoutAction } from "../../../Redux/AuthAppState";
 import { customerCouponsDownloadedAction } from "../../../Redux/CustomerCouponsAppState";
 import store from "../../../Redux/Store";
 import globals from "../../../Services/Globals";
@@ -23,28 +21,6 @@ function CustomerCoupons(): JSX.Element {
     const [coupons, setCoupons] = useState<Coupon[]>(store.getState().customerCouponsState.customerCoupons);
     const navigate = useNavigate();
 
-    const getCouponsFromFilter = (coupons: Coupon[]) => {
-        coupons?.length > 0 ? setCoupons(coupons) : notify.error('no coupons from this filter');
-    }
-
-    const getCoupons = async () => {
-        tokenAxios.get<CouponsListModel>(globals.urls.customerCoupons)
-            .then(response => {
-                setCoupons(response.data.coupons);
-                store.dispatch(customerCouponsDownloadedAction(response.data.coupons));
-                notify.success(SccMsg.ALL_CUSTOMER_COUPONS);
-            })
-            .catch(err => {
-                if (err.response.status === 401) { // if token has expired - logout
-                    store.dispatch(logoutAction());
-                    notify.error(ErrMsg.PLS_LOGIN);
-                    navigate('/login');
-                    return;
-                }
-                notify.error(err)
-            })
-    }
-
     useEffect(() => {
         if (!store.getState().authState?.user) {
             notify.error(ErrMsg.PLS_LOGIN);
@@ -61,6 +37,22 @@ function CustomerCoupons(): JSX.Element {
         coupons.length === 0 && getCoupons();
         
     }, [])
+
+    const getCouponsFromFilter = (coupons: Coupon[]) => {
+        coupons?.length > 0 ? setCoupons(coupons) : notify.error('no coupons from this filter');
+    }
+
+    const getCoupons = async () => {
+        tokenAxios.get<CouponsListModel>(globals.urls.customerCoupons)
+            .then(response => {
+                setCoupons(response.data.coupons);
+                store.dispatch(customerCouponsDownloadedAction(response.data.coupons));
+                notify.success(SccMsg.ALL_CUSTOMER_COUPONS);
+            })
+            .catch(err => {
+                notify.error(err)
+            })
+    }
 
     return (
         <div className="CustomerCoupons">
