@@ -49,15 +49,7 @@ function CustomersList(): JSX.Element {
                     notify.success(SccMsg.ALL_CUSTOMERS);
                 })
                 .catch((err) => {
-                    if (err.response.status === 401) { // if token has expired - logout
-                        store.dispatch(logoutAction());
-                        notify.error(ErrMsg.PLS_LOGIN);
-                        navigate('/login');    
-                        return;
-                    }
-                     
                     notify.error(err)
-                    
                 })
         }
     }, [])
@@ -72,13 +64,15 @@ function CustomersList(): JSX.Element {
                 }
             })
             .catch(err => {
-                switch (err.response.status) {
+                switch (err.response?.status) {
                     case 401: // unauthorized
                         notify.error(ErrMsg.UNAUTHORIZED_OPERATION);
                         break;
                     case 403: // forbidden
                         notify.error(err.response.data);
                         break;
+                    default:
+                        notify.error(err);
                 }
             })
     }

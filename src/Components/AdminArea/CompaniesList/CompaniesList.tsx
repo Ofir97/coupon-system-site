@@ -64,13 +64,15 @@ function CompaniesList(): JSX.Element {
                 }
             })
             .catch(err => {
-                switch (err.response.status) {
+                switch (err.response?.status) {
                     case 401: // unauthorized
                         notify.error(ErrMsg.UNAUTHORIZED_OPERATION);
                         break;
                     case 403: // forbidden
                         notify.error(err.response.data);
                         break;
+                    default:
+                        notify.error(err);
                 }
             })
 

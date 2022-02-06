@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Coordinates } from "../../../Models/weather/Coordinates";
 import { WeatherApi } from "../../../Models/weather/WeatherApi";
 import Avatar from "../../SharedArea/Avatar/Avatar";
+import EmptyView from "../../SharedArea/EmptyView/EmptyView";
 import "./Weather.css";
 
 function Weather(): JSX.Element {
@@ -14,17 +15,15 @@ function Weather(): JSX.Element {
 
     const key = '49720f8d37684698a8eb7990686afd7d';
 
-    const callWeatherApi = (coordinates: Coordinates) => {
+    const callWeatherApi = async (coordinates: Coordinates) => {
         axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${key}&units=metric`)
 
             .then(response => {
                 const apiResponse = response.data;
                 const weather: WeatherApi = new WeatherApi();
 
-                console.log(new Date(apiResponse?.current?.sunrise * 1000));
                 weather.location = coordinates?.region;
                 weather.temp = Math.round(apiResponse?.current?.temp);
-
                 weather.cloudCover = apiResponse?.current?.clouds;
                 weather.humidity = apiResponse?.current?.humidity;
                 weather._iconUrl = `https://openweathermap.org/img/wn/${apiResponse?.current?.weather[0]?.icon}@2x.png`;
@@ -74,7 +73,11 @@ function Weather(): JSX.Element {
                         ]
                     })}
                 </div></>}
+
+                {weatherInfo?.length == 0 && <EmptyView message="Sorry, could not load weather info."/>}
         </div >
+
+        
     );
 }
 

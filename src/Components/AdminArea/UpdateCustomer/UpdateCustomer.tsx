@@ -33,7 +33,7 @@ function UpdateCustomer(): JSX.Element {
     const {
         register,
         handleSubmit,
-        formState: { errors, isValid},
+        formState: { errors, isValid },
     } = useForm<Customer>({
         mode: "all",
         resolver: zodResolver(schema),
@@ -45,7 +45,7 @@ function UpdateCustomer(): JSX.Element {
             navigate('/login');
             return;
         }
-    
+
         if (store.getState().authState?.user?.clientType.toString() !== 'ADMIN') {
             notify.error(ErrMsg.UNAUTHORIZED);
             navigate('/');
@@ -59,94 +59,96 @@ function UpdateCustomer(): JSX.Element {
             .then(response => {
                 if (response.data.success) {
                     notify.success(response.data.message);
-                    store.dispatch(customersUpdatedAction(customer)); 
+                    store.dispatch(customersUpdatedAction(customer));
                     navigate('/admin/customer');
                 }
 
             })
             .catch((err) => {
-                switch (err.response.status) {
+                switch (err.response?.status) {
                     case 401: // unauthorized
                         notify.error(ErrMsg.UNAUTHORIZED_OPERATION);
                         break;
                     case 403: // forbidden
                         notify.error(err.response.data);
                         break;
+                    default:
+                        notify.error(err);
                 }
             })
     }
 
     return (
         <div className="UpdateCustomer">
-			{customer !== null && <><h3 className="display-6">Update Customer</h3>
-            <form onSubmit={handleSubmit(sendToRemoteServer)} className="Form form-inline was-validated" noValidate >
-            <div className="form-group row">
-                    <label className="col-4 col-form-label">ID</label>
-                    <div className="col-8">
-                        <div className="input-group">
-                            <input {...register("id")} disabled type="text" className="form-control" defaultValue={id} />
+            {customer !== null && <><h3 className="display-6">Update Customer</h3>
+                <form onSubmit={handleSubmit(sendToRemoteServer)} className="Form form-inline was-validated" noValidate >
+                    <div className="form-group row">
+                        <label className="col-4 col-form-label">ID</label>
+                        <div className="col-8">
+                            <div className="input-group">
+                                <input {...register("id")} disabled type="text" className="form-control" defaultValue={id} />
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <div className="form-group row">
-                    <label className="col-4 col-form-label">First Name</label>
-                    <div className="col-8">
-                        <div className="input-group">
-                            <input {...register("firstName")} type="text" className="form-control" defaultValue={customer?.firstName}  />
-                            <div className="invalid-feedback"></div>
+
+                    <div className="form-group row">
+                        <label className="col-4 col-form-label">First Name</label>
+                        <div className="col-8">
+                            <div className="input-group">
+                                <input {...register("firstName")} type="text" className="form-control" defaultValue={customer?.firstName} />
+                                <div className="invalid-feedback"></div>
+                            </div>
+                            <div className="bad">{errors.firstName?.message}</div>
                         </div>
-                        <div className="bad">{errors.firstName?.message}</div>
                     </div>
-                </div>
 
-                <div className="form-group row">
-                    <label className="col-4 col-form-label">Last Name</label>
-                    <div className="col-8">
-                        <div className="input-group">
-                            <input {...register("lastName")} type="text" className="form-control" defaultValue={customer?.lastName} />
-                            <div className="invalid-feedback"></div>
+                    <div className="form-group row">
+                        <label className="col-4 col-form-label">Last Name</label>
+                        <div className="col-8">
+                            <div className="input-group">
+                                <input {...register("lastName")} type="text" className="form-control" defaultValue={customer?.lastName} />
+                                <div className="invalid-feedback"></div>
+                            </div>
+                            <div className="bad">{errors.lastName?.message}</div>
                         </div>
-                        <div className="bad">{errors.lastName?.message}</div>
                     </div>
-                </div>
 
-                <div className="form-group row">
-                    <label className="col-4 col-form-label">Email</label>
-                    <div className="col-8">
-                        <div className="input-group">
-                            <input {...register("email")} type="text" className="form-control" required defaultValue={customer?.email}/>
-                            <div className="invalid-feedback"></div>
+                    <div className="form-group row">
+                        <label className="col-4 col-form-label">Email</label>
+                        <div className="col-8">
+                            <div className="input-group">
+                                <input {...register("email")} type="text" className="form-control" required defaultValue={customer?.email} />
+                                <div className="invalid-feedback"></div>
+                            </div>
+                            <div className="bad">{errors.email?.message}</div>
                         </div>
-                        <div className="bad">{errors.email?.message}</div>
                     </div>
-                </div>
 
 
-                <div className="form-group row">
-                    <label className="col-4 col-form-label">Password</label>
-                    <div className="col-8">
-                        <div className="input-group">
-                            <input {...register("password")} type="password" className="form-control" required defaultValue={customer?.password}/>
-                            <div className="invalid-feedback"></div>
+                    <div className="form-group row">
+                        <label className="col-4 col-form-label">Password</label>
+                        <div className="col-8">
+                            <div className="input-group">
+                                <input {...register("password")} type="password" className="form-control" required defaultValue={customer?.password} />
+                                <div className="invalid-feedback"></div>
+                            </div>
+                            <div className="bad">{errors.password?.message}</div>
                         </div>
-                        <div className="bad">{errors.password?.message}</div>
                     </div>
-                </div>
 
 
-                <div className="form-group row">
-                    <div className="btn-container">
-                        <button disabled={ !isValid } name="submit" type="submit" className="btn btn-primary">Update Customer</button>
+                    <div className="form-group row">
+                        <div className="btn-container">
+                            <button disabled={!isValid} name="submit" type="submit" className="btn btn-primary">Update Customer</button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
 
 
-            <GoMenu to='/admin/customer' /></>}
+                <GoMenu to='/admin/customer' /></>}
 
             {!customer && <><EmptyView message='Ooops.. customer does not exist!' />
-             <Link to="/admin/customer"><button type="button" className="btn btn-secondary btn-md back-btn">Back to customers menu</button></Link></>}
+                <Link to="/admin/customer"><button type="button" className="btn btn-secondary btn-md back-btn">Back to customers menu</button></Link></>}
         </div>
     );
 }

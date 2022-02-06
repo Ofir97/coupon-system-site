@@ -57,13 +57,15 @@ function AddCustomer(): JSX.Element {
                 }
             })
             .catch((err) => {
-                switch (err.response.status) {
+                switch (err.response?.status) {
                     case 401: // unauthorized
                         notify.error(ErrMsg.UNAUTHORIZED_OPERATION);
                         break;
                     case 403: // forbidden
                         notify.error(err.response.data);
                         break;
+                    default:
+                        notify.error(err);
                 }
             })
     }
@@ -121,7 +123,7 @@ function AddCustomer(): JSX.Element {
 
                 <div className="form-group row">
                     <div className="btn-container">
-                        <button disabled={ !isValid } name="submit" type="submit" className="btn btn-primary">Add Customer</button>
+                        <button disabled={!isValid} name="submit" type="submit" className="btn btn-primary">Add Customer</button>
                     </div>
                 </div>
             </form>

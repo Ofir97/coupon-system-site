@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Badge } from "react-bootstrap";
+import { BsFillMoonFill, BsFillSunriseFill, BsFillSunsetFill, BsSunFill } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import store from "../../../Redux/Store";
 import notify, { ErrMsg } from "../../../Services/Notification";
@@ -35,15 +36,15 @@ function AdminPage(): JSX.Element {
 
     const displayGreetings = (time: Date) => {
         const hour = time.getHours();
-        if (hour >= 5 && hour < 12) return 'Good Morning';
-        if (hour >= 12 && hour < 17) return 'Good Afternoon';
-        if (hour >= 17 && hour < 21) return 'Good Evening';
-        return 'Good Night';
+        if (hour >= 5 && hour < 12) return <>Good Morning Admin! <span className="hour-icon"><BsFillSunriseFill/></span></>;
+        if (hour >= 12 && hour < 17) return <>Good Afternoon Admin! <span className="hour-icon"><BsSunFill/></span></>;
+        if (hour >= 17 && hour < 21) return <>Good Evening Admin! <span className="hour-icon"><BsFillSunsetFill/></span></>;
+        return <>Good Night Admin! <span className="hour-icon"><BsFillMoonFill/></span></>;
     }
 
     return (
         <div className="AdminPage">
-            <h2 className="display-6">{displayGreetings(time)} Admin!</h2>
+            <h2 className="display-6">{displayGreetings(time)}</h2>
             <div className="row">
                 <div className="col-sm-4">
                     <div className="card">

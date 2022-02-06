@@ -66,7 +66,7 @@ function Login(): JSX.Element {
                 }   
             })
             .catch((err) => {
-                err.response.status === 401 ? notify.error(err.response.data) : notify.error(err);
+                err.response?.status === 401 ? notify.error(err.response.data) : notify.error(err);
             })
     }
 
