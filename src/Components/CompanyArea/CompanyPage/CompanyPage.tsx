@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { Badge } from "react-bootstrap";
 import { BsFillMoonFill, BsFillSunriseFill, BsFillSunsetFill, BsSunFill } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
+import { Coupon } from "../../../Models/Coupon";
+import { CouponsListModel } from "../../../Models/models-lists/CouponsList";
+import { companyCouponsDownloadedAction } from "../../../Redux/CompanyCouponsAppState";
 import store from "../../../Redux/Store";
+import globals from "../../../Services/Globals";
+import tokenAxios from "../../../Services/InterceptorAxios";
 import notify, { ErrMsg } from "../../../Services/Notification";
 import "./CompanyPage.css";
 
@@ -10,7 +15,7 @@ function CompanyPage(): JSX.Element {
 
     const navigate = useNavigate();
     const [time, setTime] = useState(new Date());
-    const [numOfCompanyCoupons, setNumOfCompanyCoupons] = useState(store.getState().companyCouponsState.companyCoupons?.length)
+    const [coupons, setCoupons] = useState<Coupon[]>(store.getState().companyCouponsState.companyCoupons);
 
     useEffect(() => {
         if (!store.getState().authState?.user) {
@@ -32,6 +37,18 @@ function CompanyPage(): JSX.Element {
         return () => clearInterval(timerId);
     })
 
+    const getCoupons = async () => {
+        return tokenAxios.get<CouponsListModel>(globals.urls.companyCoupons);
+    }
+    
+    useEffect(() => {
+        coupons.length === 0 && getCoupons()
+        .then((response) => {
+            store.dispatch(companyCouponsDownloadedAction(response.data.coupons));
+            setCoupons(response.data.coupons);
+        })
+    }, [])
+
 
     const displayGreetings = (time: Date) => {
         const userName = store.getState().authState?.user?.name;
@@ -50,8 +67,8 @@ function CompanyPage(): JSX.Element {
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">View Coupons</h5>
-                            <h5>{numOfCompanyCoupons > 0 && <Badge pill bg="secondary" text="light">
-                                {numOfCompanyCoupons} coupons
+                            <h5>{coupons?.length > 0 && <Badge pill bg="secondary" text="light">
+                                {coupons?.length} coupons
                             </Badge>}
                             </h5>
                             <p className="card-text">Show all company's coupons.</p>

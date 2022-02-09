@@ -17,7 +17,6 @@ import { customersDeletedAction, customersDownloadedAction } from "../../../Redu
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { RiCoupon3Line } from "react-icons/ri";
 import tokenAxios from "../../../Services/InterceptorAxios";
-import { logoutAction } from "../../../Redux/AuthAppState";
 
 function CustomersList(): JSX.Element {
 

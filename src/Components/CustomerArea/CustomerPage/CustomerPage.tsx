@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import { Badge } from "react-bootstrap";
 import { BsFillMoonFill, BsFillSunriseFill, BsFillSunsetFill, BsSunFill } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
+import { Coupon } from "../../../Models/Coupon";
+import { CouponsListModel } from "../../../Models/models-lists/CouponsList";
+import { couponsDownloadedAction } from "../../../Redux/CouponsAppState";
+import { customerCouponsDownloadedAction } from "../../../Redux/CustomerCouponsAppState";
 import store from "../../../Redux/Store";
+import globals from "../../../Services/Globals";
+import tokenAxios from "../../../Services/InterceptorAxios";
 import notify, { ErrMsg } from "../../../Services/Notification";
 import "./CustomerPage.css";
 
@@ -10,8 +16,8 @@ function CustomerPage(): JSX.Element {
 
     const navigate = useNavigate();
     const [time, setTime] = useState(new Date());
-    const [numOfCustomerCoupons, setNumOfCustomerCoupons] = useState(store.getState().customerCouponsState.customerCoupons?.length);
-    const [numOfCoupons, setNumOfCoupons] = useState(store.getState().couponsState.coupons?.length)
+    const [customerCoupons, setCustomerCoupons] = useState<Coupon[]>(store.getState().customerCouponsState.customerCoupons);
+    const [coupons, setCoupons] = useState<Coupon[]>(store.getState().couponsState.coupons);
 
     useEffect(() => {
         if (!store.getState().authState?.user) {
@@ -33,6 +39,33 @@ function CustomerPage(): JSX.Element {
         return () => clearInterval(timerId);
     })
 
+    const getAllCouponsFromServer = async () => {
+        tokenAxios.get<CouponsListModel>(globals.urls.coupons)
+            .then((response) => {
+                store.dispatch(couponsDownloadedAction(response.data.coupons));
+                setCoupons(response.data.coupons);
+            })
+            .catch((err) => {
+                notify.error(err);
+            })
+    }
+
+    const getCustomerCouponsFromServer = async () => {
+        tokenAxios.get<CouponsListModel>(globals.urls.customerCoupons)
+            .then(response => {
+                store.dispatch(customerCouponsDownloadedAction(response.data.coupons));
+                setCustomerCoupons(response.data.coupons);
+            })
+            .catch(err => {
+                notify.error(err);
+            })
+    }
+
+    useEffect(() => {
+        coupons?.length === 0 && getAllCouponsFromServer();
+        customerCoupons?.length === 0 && getCustomerCouponsFromServer();
+    }, [])
+
     const displayGreetings = (time: Date) => {
         const userName = store.getState().authState?.user?.name;
         const hour = time.getHours();
@@ -51,8 +84,8 @@ function CustomerPage(): JSX.Element {
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">View all Coupons</h5>
-                            <h5>{numOfCoupons > 0 && <Badge pill bg="secondary" text="light">
-                                {numOfCoupons} coupons
+                            <h5>{coupons?.length > 0 && <Badge pill bg="secondary" text="light">
+                                {coupons?.length} coupons
                             </Badge>}
                             </h5>
                             <p className="card-text">Show all coupons of the system.</p>
@@ -65,8 +98,8 @@ function CustomerPage(): JSX.Element {
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">View your coupons</h5>
-                            <h5>{numOfCustomerCoupons > 0 && <Badge pill bg="secondary" text="light">
-                                {numOfCustomerCoupons} coupons
+                            <h5>{customerCoupons?.length > 0 && <Badge pill bg="secondary" text="light">
+                                {customerCoupons?.length} coupons
                             </Badge>}
                             </h5>
                             <p className="card-text">Show your purchased coupons.</p>

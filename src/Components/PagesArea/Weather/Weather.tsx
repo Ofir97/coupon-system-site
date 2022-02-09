@@ -8,7 +8,7 @@ import "./Weather.css";
 
 function Weather(): JSX.Element {
 
-    const numOfRegions = 8;
+    const numOfRegions = 12;
     const info: WeatherApi[] = [];
     const [weatherInfo, setWeatherInfo] = useState(info);
     const [rerender, setRerender] = useState(true);
@@ -28,6 +28,7 @@ function Weather(): JSX.Element {
                 weather.humidity = apiResponse?.current?.humidity;
                 weather._iconUrl = `https://openweathermap.org/img/wn/${apiResponse?.current?.weather[0]?.icon}@2x.png`;
                 weather._description = apiResponse?.current?.weather[0]?.description;
+                weather._windSpeed = Math.round(apiResponse?.current?.wind_speed * 3.6);
                 weather._lat = coordinates?.lat;
 
                 info.push(weather);
@@ -50,7 +51,11 @@ function Weather(): JSX.Element {
         callWeatherApi(new Coordinates('Bangkok', 13.736717, 100.523186));
         callWeatherApi(new Coordinates('London', 51.509865, -0.118092));
         callWeatherApi(new Coordinates('Sydney', -33.865143, 151.209900));
-        callWeatherApi(new Coordinates('Paris', 48.864716, 	2.349014));
+        callWeatherApi(new Coordinates('Paris', 48.864716, 2.349014));
+        callWeatherApi(new Coordinates('Stockholm', 59.334591, 18.063240));
+        callWeatherApi(new Coordinates('San Francisco', 37.773972, -122.431297));
+        callWeatherApi(new Coordinates('Buenos Aires', -34.603722, -58.381592));
+        callWeatherApi(new Coordinates('Amsterdam', 52.377956, 4.897070));
 
     }, [])
 
@@ -68,6 +73,7 @@ function Weather(): JSX.Element {
                                     <h4 className="card-temp">{weather?.temp}°</h4>
                                     <h6 className="card-details">Cloud Cover: {weather?.cloudCover}%</h6>
                                     <h6 className="card-details">Humidity: {weather?.humidity}%</h6>
+                                    <h6 className="card-details">Wind: {weather?.windSpeed} km/h</h6>
                                 </div>
                             </div>
                         ]

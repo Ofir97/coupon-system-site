@@ -6,6 +6,7 @@ export class WeatherApi {
     public _humidity?: Number;
     public _iconUrl?: String;
     public _description?: String;
+    public _windSpeed?: Number;
     public _lat?: Number;
 
     public get location() {
@@ -54,6 +55,14 @@ export class WeatherApi {
 
     public set description(description: String) {
         this._description = description
+    }
+
+    public get windSpeed() {
+        return this._windSpeed;
+    }
+
+    public set windSpeed(windSpeed: Number) {
+        this._windSpeed = windSpeed;
     }
 
     public get lat() {

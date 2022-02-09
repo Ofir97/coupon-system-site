@@ -30,7 +30,7 @@
 
 .FilterSection .filter-header {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    color: rgb(42, 90, 194);
+    color: rgb(80, 73, 80);
 }
 
 .FilterSection .nav-item:hover {
@@ -38,15 +38,21 @@
 }
 
 .FilterSection .price-input {
-    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-family: 'Varela Round', sans-serif;
     height: 38px;
     background-color: rgba(245, 233, 247, 0.9);
-    color: rgb(42, 90, 194);
+    color: rgb(80, 73, 80);
 }
 
 .FilterSection .category-input {
     font-family: cursive;
     background-color: rgba(245, 233, 247, 0.9);
-    color: rgb(42, 90, 194);
+    color: rgb(132, 92, 224);
     cursor: pointer;
+}
+
+.FilterSection img {
+    width: 150px;
+    height: 80px;
 }

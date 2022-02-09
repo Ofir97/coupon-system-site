@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Col, Nav, Row, Tab } from "react-bootstrap";
+import coupon from "../../../Assets/images/coupon.png";
 import { Coupon } from "../../../Models/Coupon";
 import store from "../../../Redux/Store";
 import "./FilterSection.css";
@@ -27,6 +28,7 @@ function FilterSection(props: FilterSectionProps): JSX.Element {
                 setCoupons(store.getState().couponsState.coupons);
                 break;
         }
+
     }, [])
 
     const allCoupons = () => {
@@ -76,6 +78,10 @@ function FilterSection(props: FilterSectionProps): JSX.Element {
                     </Col>
                     <Col sm={7}>
                         <Tab.Content>
+                            <Tab.Pane eventKey="all">
+                                <div className="coupon-icon"><img src={coupon}/></div>
+
+                            </Tab.Pane>
                             <Tab.Pane eventKey="category">
                                 <form onSubmit={filterByCategory} className="filter-form">
                                     <select defaultValue={''} className="form-select category-input" onChange={handleCategoryChange} required>
@@ -103,7 +109,7 @@ function FilterSection(props: FilterSectionProps): JSX.Element {
                     </Col>
                 </Row>
             </Tab.Container>
-            
+
         </div>
     );
 }
